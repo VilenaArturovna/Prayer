@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  Button,
   Image,
   Pressable,
-  SafeAreaView,
+  ScrollView,
   StyleSheet,
-  Text, TextInput,
+  Text,
+  TextInput,
   TouchableHighlight,
   View
 } from "react-native";
-import CheckBox from "@react-native-community/checkbox";
 import { Prayer } from "./Prayer";
+import { colors } from "../../assets/Colors";
 
 export const MyPrayers = () => {
   return (
-    <View>
+    <ScrollView>
       <View style={styles.inputNewPrayer}>
         <View style={styles.inputContent}>
           <Pressable>
@@ -29,10 +29,60 @@ export const MyPrayers = () => {
             placeholderTextColor={"#9C9C9C"}
             autoCompleteType={"off"}
             caretHidden={false}
-            selectionColor={"#72A8BC"}
+            selectionColor={colors.blue}
           />
         </View>
       </View>
+      <Prayer
+        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
+        usersCount={3}
+        prayersCount={120}
+      />
+      <Prayer
+        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
+        usersCount={0}
+        prayersCount={120}
+      />
+      <Prayer
+        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
+        usersCount={3}
+        prayersCount={120}
+      />
+      <Prayer
+        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
+        usersCount={0}
+        prayersCount={120}
+      />
+      <Prayer
+        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
+        usersCount={3}
+        prayersCount={120}
+      />
+      <Prayer
+        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
+        usersCount={0}
+        prayersCount={120}
+      />
+      <Prayer
+        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
+        usersCount={3}
+        prayersCount={120}
+      />
+      <Prayer
+        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
+        usersCount={0}
+        prayersCount={120}
+      />
+      <Prayer
+        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
+        usersCount={3}
+        prayersCount={120}
+      />
+      <Prayer
+        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
+        usersCount={0}
+        prayersCount={120}
+      />
       <Prayer
         text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
         usersCount={3}
@@ -48,17 +98,18 @@ export const MyPrayers = () => {
           <Text style={styles.buttonTitle}>Show Answered Prayers</Text>
         </View>
       </TouchableHighlight>
-    </View>
+      <View style={{marginBottom: 100}} />
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
   inputNewPrayer: {
     marginHorizontal: 15,
-    borderColor: "#E5E5E5",
+    borderColor: colors.lightgray,
     borderWidth: 1,
     borderRadius: 10,
-    marginBottom: 16,
+    marginVertical: 16,
   },
   inputContent: {
     marginVertical: 13,
@@ -75,7 +126,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: 21,
-    backgroundColor: "#BFB393",
+    backgroundColor: colors.beige,
     height: 30,
     borderRadius: 15,
     justifyContent: "center",
@@ -84,7 +135,7 @@ const styles = StyleSheet.create({
   },
   buttonTitle: {
     textTransform: "uppercase",
-    color: "#FFFFFF",
+    color: colors.white,
     textAlign: "center",
     marginHorizontal: 17,
     fontSize: 12,

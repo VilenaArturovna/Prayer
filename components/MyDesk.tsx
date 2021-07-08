@@ -2,11 +2,13 @@ import React from "react";
 import {
   Image,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
+import { colors } from "../assets/Colors";
 
 export const MyDesk = () => {
   return (
@@ -27,39 +29,42 @@ export const MyDesk = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <View>
-        <View style={styles.desk}>
-          <Text style={styles.deskTitle}>
-            To Do
-          </Text>
+      <ScrollView>
+        <View>
+          <View style={styles.desk}>
+            <Text style={styles.deskTitle}>
+              To Do
+            </Text>
+          </View>
+          <View style={styles.desk}>
+            <Text style={styles.deskTitle}>
+              In Progress
+            </Text>
+          </View>
+          <View style={styles.desk}>
+            <Text style={styles.deskTitle}>
+              Completed
+            </Text>
+          </View>
         </View>
-        <View style={styles.desk}>
-          <Text style={styles.deskTitle}>
-            In Progress
-          </Text>
-        </View>
-        <View style={styles.desk}>
-          <Text style={styles.deskTitle}>
-            Completed
-          </Text>
-        </View>
-      </View>
+        <View style={{ marginBottom: 100 }} />
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "#ffffff",
+    backgroundColor: colors.white,
     height: 64,
     borderBottomWidth: 1,
-    borderBottomColor: "#E5E5E5",
+    borderBottomColor: colors.lightgray,
     textAlign: "center",
     justifyContent: "center",
     marginBottom: 15
   },
   title: {
-    color: "#514D47",
+    color: colors.primary,
     textAlign: "center",
     fontSize: 17,
     width: 137
@@ -75,21 +80,19 @@ const styles = StyleSheet.create({
   iconImage: {
     width: 16,
     height: 16
-
   },
-
   desk: {
     marginBottom: 10,
     marginHorizontal: 15,
     borderWidth: 1,
-    borderColor: "#E5E5E5",
+    borderColor: colors.lightgray,
     borderRadius: 4,
     textAlign: "center"
   },
   deskTitle: {
     marginLeft: 15,
     marginVertical: 20,
-    color: "#514D47",
+    color: colors.primary,
     fontSize: 17
   }
 });
