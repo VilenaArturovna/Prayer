@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  FlatList,
   Image,
   SafeAreaView,
   ScrollView,
@@ -9,8 +10,15 @@ import {
   View
 } from "react-native";
 import { colors } from "../assets/Colors";
+import { DeskItem } from "./DeskItem";
 
 export const MyDesk = () => {
+  const desks = [
+    { id: "1", title: "To Do" },
+    { id: "2", title: "In Progress" },
+    { id: "3", title: "Completed" }
+  ];
+
   return (
     <SafeAreaView>
       <View style={styles.header}>
@@ -29,26 +37,11 @@ export const MyDesk = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView>
-        <View>
-          <View style={styles.desk}>
-            <Text style={styles.deskTitle}>
-              To Do
-            </Text>
-          </View>
-          <View style={styles.desk}>
-            <Text style={styles.deskTitle}>
-              In Progress
-            </Text>
-          </View>
-          <View style={styles.desk}>
-            <Text style={styles.deskTitle}>
-              Completed
-            </Text>
-          </View>
-        </View>
+        <FlatList
+          data={desks}
+          renderItem={(item) => <DeskItem title={item.item.title} />}
+          keyExtractor={item => item.id} />
         <View style={{ marginBottom: 100 }} />
-      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -80,19 +73,5 @@ const styles = StyleSheet.create({
   iconImage: {
     width: 16,
     height: 16
-  },
-  desk: {
-    marginBottom: 10,
-    marginHorizontal: 15,
-    borderWidth: 1,
-    borderColor: colors.lightgray,
-    borderRadius: 4,
-    textAlign: "center"
-  },
-  deskTitle: {
-    marginLeft: 15,
-    marginVertical: 20,
-    color: colors.primary,
-    fontSize: 17
   }
 });

@@ -1,7 +1,9 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import { colors } from "../../assets/Colors";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 
 type PropsType = {
   text: string
@@ -9,11 +11,21 @@ type PropsType = {
   prayersCount: number
 }
 
+type RootStackParamList = {
+  Prayer: { text: string }
+}
+
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList>
+
+const width = Dimensions.get("window").width;
+
 export const Prayer = ({ text, usersCount, prayersCount }: PropsType) => {
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
+
   return (
-    <View style={styles.container}>
+    <View style={styles.container} >
       <View style={styles.prayerItem}>
-        <View style={styles.iconsGroup}>
+        <View style={styles.group}>
           <Image source={require("./../../assets/icons/state.png")} />
           <CheckBox
             onCheckColor={"#514D47"}
@@ -23,14 +35,25 @@ export const Prayer = ({ text, usersCount, prayersCount }: PropsType) => {
             disabled={false}
             style={styles.checkbox}
           />
-          <Text
-            style={styles.prayerTitle}
-            ellipsizeMode={"tail"}
-            numberOfLines={1}
+          <Pressable
+            style={{
+            width: usersCount === 0 ? width - 189 : width - 240,
+            marginLeft: 15
+          }}
+            onPress={() => {
+              navigation.navigate("Prayer", { text });
+            }}
           >
-            {text}
-          </Text></View>
-        <View style={styles.iconsGroup}>
+            <Text
+              style={styles.prayerTitle}
+              ellipsizeMode={"tail"}
+              numberOfLines={1}
+            >
+              {text}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.group}>
           {usersCount > 0
           && <View style={styles.iconsGroup}>
             <Image
@@ -62,19 +85,19 @@ const styles = StyleSheet.create({
   },
   prayerItem: {
     paddingVertical: 18,
-    marginLeft: 20,
-    marginRight: 126,
     flexDirection: "row",
-
+    flex: 1,
     justifyContent: "space-between"
+  },
+  group: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
   },
   prayerTitle: {
     fontSize: 17,
     color: colors.primary,
-    lineHeight: 20,
-    marginLeft: 15,
-    marginRight: 20
-
+    lineHeight: 20
   },
   iconsGroup: {
     flexDirection: "row",
@@ -83,7 +106,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginLeft: 4,
-    marginRight: 2,
+    marginRight: 2
   },
   text: {
     fontSize: 12,
@@ -91,6 +114,6 @@ const styles = StyleSheet.create({
     width: 21
   },
   checkbox: {
-    marginLeft: 15,
+    marginLeft: 15
   }
 });

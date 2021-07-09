@@ -1,22 +1,24 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors } from "../../assets/Colors";
+import { useNavigation } from "@react-navigation/native";
 
-export const PrayerHeader = () => {
+export const PrayerHeader = ({ title }: { title: string }) => {
+  const navigation = useNavigation()
   return (
     <View style={styles.title}>
       <View style={styles.iconGroup}>
-        <Image
+        <TouchableOpacity onPress={() => {navigation.goBack()}}><Image
           source={require("./../../assets/icons/back.png")}
           style={styles.iconBack}
-        />
+        /></TouchableOpacity>
         <Image
           source={require("./../../assets/icons/prayer.png")}
           style={styles.iconPrayer}
         />
       </View>
       <Text style={styles.text}>
-        Prayer item two which is for my family to love God whole heartedly.
+        {title}
       </Text>
     </View>
   );

@@ -39,57 +39,7 @@ export const MyPrayers = () => {
         prayersCount={120}
       />
       <Prayer
-        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
-        usersCount={0}
-        prayersCount={120}
-      />
-      <Prayer
-        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
-        usersCount={3}
-        prayersCount={120}
-      />
-      <Prayer
-        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
-        usersCount={0}
-        prayersCount={120}
-      />
-      <Prayer
-        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
-        usersCount={3}
-        prayersCount={120}
-      />
-      <Prayer
-        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
-        usersCount={0}
-        prayersCount={120}
-      />
-      <Prayer
-        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
-        usersCount={3}
-        prayersCount={120}
-      />
-      <Prayer
-        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
-        usersCount={0}
-        prayersCount={120}
-      />
-      <Prayer
-        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
-        usersCount={3}
-        prayersCount={120}
-      />
-      <Prayer
-        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
-        usersCount={0}
-        prayersCount={120}
-      />
-      <Prayer
-        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
-        usersCount={3}
-        prayersCount={120}
-      />
-      <Prayer
-        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
+        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit  Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
         usersCount={0}
         prayersCount={120}
       />

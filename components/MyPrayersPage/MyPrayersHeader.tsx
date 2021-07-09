@@ -20,7 +20,7 @@ export const MyPrayersHeader = ({title, activeTab, setActivaTab}: PropsType) => 
   return (
       <View style={styles.header}>
         <View style={styles.container}>
-          <Text style={styles.title}>To Do</Text>
+          <Text style={styles.title}>{title}</Text>
           <TouchableHighlight
             style={styles.icon}
             onPress={() => {

@@ -2,18 +2,29 @@ import React, { useState } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import { MyPrayers } from "./MyPrayers";
 import { MyPrayersHeader } from "./MyPrayersHeader";
+import { RouteProp } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+
+type RootStackParamList = {
+  Prayers: { title: string };
+};
+
+type ProfileScreenRouteProp = RouteProp<RootStackParamList, "Prayers">;
 
 type PropsType = {
-  title: string
-}
+  route: ProfileScreenRouteProp;
+};
+
 export type TabsType = "prayers" | "subscribed"
 
-export const MyPrayersPage = ({title}: PropsType) => {
-  const [activeTab, setActivaTab] = useState<TabsType>("prayers")
+export const MyPrayersPage = ({ route }: PropsType) => {
+  const title = route.params.title;
+
+  const [activeTab, setActivaTab] = useState<TabsType>("prayers");
   return (
     <SafeAreaView>
       <MyPrayersHeader
-        title={"To Do"}
+        title={title}
         activeTab={activeTab}
         setActivaTab={setActivaTab}
       />

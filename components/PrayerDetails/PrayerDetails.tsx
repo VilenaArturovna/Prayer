@@ -13,15 +13,30 @@ import { colors } from "../../assets/Colors";
 import { Comment } from "./Comment";
 import { PrayerHeader } from "./PrayerHeader";
 import { Blocks } from "./Blocks";
+import { RouteProp } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
+type RootStackParamList = {
+  Prayer: { text: string }
+}
 
-export const PrayerDetails = () => {
+type ProfileScreenRouteProp = RouteProp<RootStackParamList, "Prayer">;
 
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList,
+  "Prayer">;
+
+type PropsType = {
+  route: ProfileScreenRouteProp;
+  navigation: ProfileScreenNavigationProp;
+};
+
+export const PrayerDetails = ({ route, navigation }: PropsType) => {
+  const { text } = route.params;
   return (
     <>
       <SafeAreaView style={{ flex: 0, backgroundColor: colors.beige }} />
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-        <PrayerHeader />
+        <PrayerHeader title={text} />
         <ScrollView>
           <View style={styles.lastPrayed}>
             <Image
