@@ -4,6 +4,7 @@ import { MyPrayers } from "./MyPrayers";
 import { MyPrayersHeader } from "./MyPrayersHeader";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { colors } from "../../assets/Colors";
 
 type RootStackParamList = {
   Prayers: { title: string };
@@ -22,13 +23,13 @@ export const MyPrayersPage = ({ route }: PropsType) => {
 
   const [activeTab, setActivaTab] = useState<TabsType>("prayers");
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor: colors.white}}>
       <MyPrayersHeader
         title={title}
         activeTab={activeTab}
-        setActivaTab={setActivaTab}
+        setActiveTab={setActivaTab}
       />
-      <ScrollView>
+      <ScrollView style={{backgroundColor: colors.white, minHeight: "100%"}}>
         <MyPrayers />
       </ScrollView>
     </SafeAreaView>

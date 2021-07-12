@@ -20,7 +20,7 @@ export const MyDesk = () => {
   ];
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor: colors.white, minHeight: "100%"}}>
       <View style={styles.header}>
         <View style={styles.container}>
           <Text style={styles.title}>My Desk</Text>

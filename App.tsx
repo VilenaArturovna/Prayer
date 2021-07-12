@@ -2,22 +2,39 @@ import React from "react";
 import { MyDesk } from "./components/MyDesk";
 import { MyPrayersPage } from "./components/MyPrayersPage/MyPrayersPage";
 import { PrayerDetails } from "./components/PrayerDetails/PrayerDetails";
-import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack";
-import { NavigationContainer, RouteProp } from "@react-navigation/native";
-import { colors } from "./assets/Colors";
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { SignIn } from "./components/Authorization/SignIn";
+import { SignUp } from "./components/Authorization/SignUp";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name={"MyDesk"} component={MyDesk} />
+    <Provider store={store}><NavigationContainer>
+      <Stack.Navigator>{/*
+        <Stack.Screen name={"SignIn"} component={SignIn} />
+        <Stack.Screen name={"SignUp"} component={SignUp} />*/}
+        <Stack.Screen
+          name={"MyDesk"}
+          component={MyDesk}
+          options={
+            {
+              headerStyle: { height: 0 },
+              headerLeft: () => null
+            }
+          }
+        />
         <Stack.Screen
           name={"Prayers"}
           component={MyPrayersPage}
           options={
-            ({route}) => ({title: route.params.title})
+            {
+              headerStyle: { height: 0 },
+              headerLeft: () => null
+            }
           }
         />
         <Stack.Screen
@@ -25,13 +42,13 @@ const App = () => {
           component={PrayerDetails}
           options={
             {
-            headerStyle: {backgroundColor: colors.beige, height: 0},
-              headerLeft: ()=> null
+              headerStyle: { height: 0 },
+              headerLeft: () => null
             }
           }
         />
       </Stack.Navigator>
-    </NavigationContainer>
+    </NavigationContainer></Provider>
   );
 };
 

@@ -9,14 +9,17 @@ import {
 } from "react-native";
 import { colors } from "../../assets/Colors";
 import { TabsType } from "./MyPrayersPage";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
+const Tab = createMaterialTopTabNavigator();
 
 type PropsType = {
   title: string
   activeTab: TabsType
-  setActivaTab: (activeTab: TabsType) => void
+  setActiveTab: (activeTab: TabsType) => void
 }
 
-export const MyPrayersHeader = ({title, activeTab, setActivaTab}: PropsType) => {
+export const MyPrayersHeader = ({title, activeTab, setActiveTab}: PropsType) => {
   return (
       <View style={styles.header}>
         <View style={styles.container}>
@@ -35,7 +38,7 @@ export const MyPrayersHeader = ({title, activeTab, setActivaTab}: PropsType) => 
         </View>
         <View style={styles.tabsContainer}>
           <Pressable
-            onPressOut={() => setActivaTab("prayers")}
+            onPressOut={() => setActiveTab("prayers")}
             style={styles.tab}
           >
             <Text
@@ -54,7 +57,7 @@ export const MyPrayersHeader = ({title, activeTab, setActivaTab}: PropsType) => 
             />
           </Pressable>
           <Pressable
-            onPressOut={() => setActivaTab("subscribed")}
+            onPressOut={() => setActiveTab("subscribed")}
             style={styles.tab}
           >
             <View style={styles.subsTab}>
