@@ -9,8 +9,8 @@ import {
   TouchableHighlight,
   View
 } from "react-native";
-import { Prayer } from "./Prayer";
-import { colors } from "../../assets/Colors";
+import { PrayerItem } from "./PrayerItem";
+import { colors } from "../../../assets/Colors";
 
 export const MyPrayers = () => {
   return (
@@ -19,7 +19,7 @@ export const MyPrayers = () => {
         <View style={styles.inputContent}>
           <Pressable>
             <Image
-              source={require("./../../assets/icons/plus.png")}
+              source={require("../../../assets/icons/plus.png")}
               style={styles.addIcon}
             />
           </Pressable>
@@ -33,12 +33,12 @@ export const MyPrayers = () => {
           />
         </View>
       </View>
-      <Prayer
+      <PrayerItem
         text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
         usersCount={3}
         prayersCount={120}
       />
-      <Prayer
+      <PrayerItem
         text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit  Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
         usersCount={0}
         prayersCount={120}

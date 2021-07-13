@@ -1,6 +1,6 @@
 import React from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
-import { colors } from "../../assets/Colors";
+import { colors } from "../../../assets/Colors";
 
 const { width } = Dimensions.get("window");
 const blockWidth = width / 2;

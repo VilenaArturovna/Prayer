@@ -1,7 +1,7 @@
 import React from "react";
 import { Dimensions, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
-import { colors } from "../../assets/Colors";
+import { colors } from "../../../assets/Colors";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 
@@ -19,14 +19,14 @@ type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList>
 
 const width = Dimensions.get("window").width;
 
-export const Prayer = ({ text, usersCount, prayersCount }: PropsType) => {
+export const PrayerItem = ({ text, usersCount, prayersCount }: PropsType) => {
   const navigation = useNavigation<ProfileScreenNavigationProp>();
 
   return (
     <View style={styles.container} >
       <View style={styles.prayerItem}>
         <View style={styles.group}>
-          <Image source={require("./../../assets/icons/state.png")} />
+          <Image source={require("../../../assets/icons/state.png")} />
           <CheckBox
             onCheckColor={"#514D47"}
             onTintColor={"#514D47"}
@@ -57,7 +57,7 @@ export const Prayer = ({ text, usersCount, prayersCount }: PropsType) => {
           {usersCount > 0
           && <View style={styles.iconsGroup}>
             <Image
-              source={require("./../../assets/icons/user.png")}
+              source={require("../../../assets/icons/user.png")}
               style={styles.icon}
             />
             <Text style={styles.text}>{usersCount}</Text>
@@ -66,7 +66,7 @@ export const Prayer = ({ text, usersCount, prayersCount }: PropsType) => {
           {prayersCount > 0
           && <View style={styles.iconsGroup}>
             <Image
-              source={require("./../../assets/icons/prayer.png")}
+              source={require("../../../assets/icons/prayer.png")}
               style={styles.icon}
             />
             <Text style={styles.text}>{prayersCount}</Text>

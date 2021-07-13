@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { colors } from "../../assets/Colors";
+import { colors } from "../../../assets/Colors";
 
 export const Comment = () => {
   return (
@@ -14,7 +14,7 @@ export const Comment = () => {
           <Text style={styles.userName}>Anna Barber</Text>
           <Text style={styles.addingDate}>2 days ago</Text>
         </View>
-        <Text style={styles.commentText}>Hey, Hey! style=styles. userNameAnnaccccc ddd Barber</Text>
+        <Text style={styles.commentText}>Hey, Hey! style=styles. userNameAnna ddd Barber</Text>
       </View>
     </View>
   );

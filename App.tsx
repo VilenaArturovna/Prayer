@@ -1,19 +1,31 @@
-import React from "react";
-import { MyDesk } from "./components/MyDesk";
-import { MyPrayersPage } from "./components/MyPrayersPage/MyPrayersPage";
-import { PrayerDetails } from "./components/PrayerDetails/PrayerDetails";
+import React, { useEffect } from "react";
+import { MyDesk } from "./src/components/MyDesk/MyDesk";
+import { MyPrayersPage } from "./src/components/MyPrayersPage/MyPrayersPage";
+import { PrayerDetails } from "./src/components/PrayerDetails/PrayerDetails";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import { SignIn } from "./components/Authorization/SignIn";
-import { SignUp } from "./components/Authorization/SignUp";
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import { SignIn } from "./src/components/Authorization/SignIn";
+import { SignUp } from "./src/components/Authorization/SignUp";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { RootStateType, store } from "./src/redux/store";
+import { NewColumn } from "./src/components/MyDesk/NewColumn";
+import { UpdateColumn } from "./src/components/MyDesk/UpdateColumn";
+import { types } from "./src/redux/types";
+import { ColumnType } from "./src/api/api";
 
 const Stack = createStackNavigator();
 
 const App = () => {
+  /*const columns = useSelector<RootStateType, Array<ColumnType>>(state => state.columns);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log('reloaded!!');
+    dispatch({ type: types.FETCH_COLUMNS });
+  }, [columns]);*/
+
   return (
-    <Provider store={store}><NavigationContainer>
+      <NavigationContainer>
       <Stack.Navigator>{/*
         <Stack.Screen name={"SignIn"} component={SignIn} />
         <Stack.Screen name={"SignUp"} component={SignUp} />*/}
@@ -27,6 +39,8 @@ const App = () => {
             }
           }
         />
+        <Stack.Screen name={"NewColumn"} component={NewColumn} />
+        <Stack.Screen name={"UpdateColumn"} component={UpdateColumn} />
         <Stack.Screen
           name={"Prayers"}
           component={MyPrayersPage}
@@ -48,8 +62,11 @@ const App = () => {
           }
         />
       </Stack.Navigator>
-    </NavigationContainer></Provider>
+    </NavigationContainer>
   );
 };
 
-export default App;
+const ProviderApp = () => {
+  return <Provider store={store}><App /></Provider>
+}
+export default ProviderApp;

@@ -7,64 +7,66 @@ import {
   TouchableHighlight,
   View
 } from "react-native";
-import { colors } from "../../assets/Colors";
-import { TabsType } from "./MyPrayersPage";
+import { colors } from "../../../assets/Colors";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { RootStateType } from "../../redux/store";
+import { ColumnType } from "../../api/api";
 
 const Tab = createMaterialTopTabNavigator();
-
-type PropsType = {
-  title: string
-  activeTab: TabsType
-  setActiveTab: (activeTab: TabsType) => void
+type RootStackParamList = {
+  UpdateColumn: { id: number };
 }
+type NavigationProp = StackNavigationProp<RootStackParamList>
 
-export const MyPrayersHeader = ({title, activeTab, setActiveTab}: PropsType) => {
+export const MyPrayersHeader = ({id}: { id: number }) => {
+  const navigation = useNavigation<NavigationProp>();
+  const columns = useSelector<RootStateType, Array<ColumnType>>(state => state.columns)
+  const column = columns.find(column => column.id === id)
+
   return (
       <View style={styles.header}>
         <View style={styles.container}>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.title}>{column.title}</Text>
           <TouchableHighlight
             style={styles.icon}
-            onPress={() => {
-              return "settings";
-            }}
+            onPress={
+              () => navigation.navigate("UpdateColumn", { id })
+            }
           >
             <Image
               style={styles.iconImage}
-              source={require("../../assets/icons/settings.png")}
+              source={require("../../../assets/icons/settings.png")}
             />
           </TouchableHighlight>
         </View>
         <View style={styles.tabsContainer}>
           <Pressable
-            onPressOut={() => setActiveTab("prayers")}
+
             style={styles.tab}
           >
             <Text
               style={[
-                styles.tabTitle,
-                activeTab === "subscribed" && styles.unactiveTabTitle
+                styles.tabTitle
               ]}
             >
               My Prayers
             </Text>
             <View
               style={[
-                styles.underline,
-                activeTab === "subscribed" && { display: "none" }
+                styles.underline
               ]}
             />
           </Pressable>
           <Pressable
-            onPressOut={() => setActiveTab("subscribed")}
             style={styles.tab}
           >
             <View style={styles.subsTab}>
               <Text
                 style={[
                   styles.tabTitle,
-                  activeTab === "prayers" && styles.unactiveTabTitle
                 ]}
               >
                 subscribed
@@ -75,8 +77,7 @@ export const MyPrayersHeader = ({title, activeTab, setActiveTab}: PropsType) => 
             </View>
             <View
               style={[
-                styles.underline,
-                activeTab === "prayers" && { display: "none" }
+                styles.underline
               ]}
             />
           </Pressable>

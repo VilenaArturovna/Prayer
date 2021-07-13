@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import { authAPI, SignInParamsType, SignUpParamsType } from "../../api/api";
-import { types } from "../reducers/types";
+import { types } from "../types";
 
 type ActionSignUpType = {
   type: types.SIGN_UP

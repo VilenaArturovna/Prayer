@@ -3,7 +3,8 @@ import axios from "axios";
 const instance = axios.create({
   baseURL: "https://prayer.herokuapp.com",
   headers: {
-    token: "Authorization: Bearer 24fc5746e07dcb81cd563a8aea1c33c03ff78d3bfdd4db6801ab2882bd9be120"
+    Authorization: "Bearer 24fc5746e07dcb81cd563a8aea1c33c03ff78d3bfdd4db6801ab2882bd9be120",
+    accept: "*/*",
   }
 });
 
@@ -38,18 +39,27 @@ export const authAPI = {
 export type ColumnType = {
   title: string
   description: string | null
-  id?: number
+  id: number
 }
-
+type DeleteResponseType = {
+  raw: []
+  affected: number
+}
 export const columnsAPI = {
   getColumns() {
-    return instance.get<Array<ColumnType> & { userId: number }>("/columns");
+    return instance.get<Array<ColumnType & { userId: number }>>("/columns");
   },
-  createColumn(data: ColumnType) {
-    return instance.post<ColumnType & { user: number }>("/columns", data);
+  createColumn(title: string,  description: string) {
+    return instance.post<ColumnType & { user: number }>("/columns", {title, description});
   },
   getColumnById(columnId: number) {
     return instance.get<ColumnType & { userId: number }>(`/columns/${columnId}`);
+  },
+  deleteColumn(columnId: number) {
+    return instance.delete<DeleteResponseType>(`/columns/${columnId}`)
+  },
+  updateColumn(columnId: number, title: string,  description: string) {
+    return instance.put<ColumnType & { userId: number }>(`/columns/${columnId}`, {title, description})
   }
 };
 
@@ -68,10 +78,6 @@ type CreatePrayerResponseType = PrayerType & {
 type GetPrayerResponseType = PrayerType & {
   commentsIds: Array<{ commentId: number }>
   id: number
-}
-type DeleteResponseType = {
-  raw: []
-  affected: number
 }
 export const prayersAPI = {
   createPrayer(data: PrayerType) {

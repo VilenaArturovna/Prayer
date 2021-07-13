@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { colors } from "../../assets/Colors";
+import { colors } from "../../../assets/Colors";
 import { useNavigation } from "@react-navigation/native";
 
 export const PrayerHeader = ({ title }: { title: string }) => {
@@ -9,11 +9,11 @@ export const PrayerHeader = ({ title }: { title: string }) => {
     <View style={styles.title}>
       <View style={styles.iconGroup}>
         <TouchableOpacity onPress={() => {navigation.goBack()}}><Image
-          source={require("./../../assets/icons/back.png")}
+          source={require("../../../assets/icons/back.png")}
           style={styles.iconBack}
         /></TouchableOpacity>
         <Image
-          source={require("./../../assets/icons/prayer.png")}
+          source={require("../../../assets/icons/prayer.png")}
           style={styles.iconPrayer}
         />
       </View>

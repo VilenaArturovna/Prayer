@@ -4,30 +4,29 @@ import { MyPrayers } from "./MyPrayers";
 import { MyPrayersHeader } from "./MyPrayersHeader";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { colors } from "../../assets/Colors";
+import { colors } from "../../../assets/Colors";
+import { useSelector } from "react-redux";
+import { RootStateType } from "../../redux/store";
+import { ColumnType } from "../../api/api";
 
 type RootStackParamList = {
-  Prayers: { title: string };
+  Prayers: { id: number };
 };
-
-type ProfileScreenRouteProp = RouteProp<RootStackParamList, "Prayers">;
-
+type PrayersRouteProp = RouteProp<RootStackParamList, "Prayers">;
 type PropsType = {
-  route: ProfileScreenRouteProp;
+  route: PrayersRouteProp;
 };
 
-export type TabsType = "prayers" | "subscribed"
 
 export const MyPrayersPage = ({ route }: PropsType) => {
-  const title = route.params.title;
+  const id = route.params.id;
+  const columns = useSelector<RootStateType, Array<ColumnType>>(state => state.columns)
+  const column = columns.find(column => column.id === id)
 
-  const [activeTab, setActivaTab] = useState<TabsType>("prayers");
   return (
     <SafeAreaView style={{backgroundColor: colors.white}}>
       <MyPrayersHeader
-        title={title}
-        activeTab={activeTab}
-        setActiveTab={setActivaTab}
+        id={id}
       />
       <ScrollView style={{backgroundColor: colors.white, minHeight: "100%"}}>
         <MyPrayers />

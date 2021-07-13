@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { colors } from "../../assets/Colors";
+import { colors } from "../../../assets/Colors";
 import { Comment } from "./Comment";
 import { PrayerHeader } from "./PrayerHeader";
 import { Blocks } from "./Blocks";
@@ -40,7 +40,7 @@ export const PrayerDetails = ({ route, navigation }: PropsType) => {
         <ScrollView>
           <View style={styles.lastPrayed}>
             <Image
-              source={require("./../../assets/icons/state.png")}
+              source={require("../../../assets/icons/state.png")}
               style={{ tintColor: colors.vinous }}
             />
             <Text style={styles.textLastPrayed}>
@@ -67,7 +67,7 @@ export const PrayerDetails = ({ route, navigation }: PropsType) => {
               >
                 <Image
                   style={styles.plusIcon}
-                  source={require("./../../assets/icons/plus.png")}
+                  source={require("../../../assets/icons/plus.png")}
                 />
               </TouchableOpacity>
             </View>
@@ -80,7 +80,7 @@ export const PrayerDetails = ({ route, navigation }: PropsType) => {
             <Comment />
             <View style={styles.addingComment}>
               <Image
-                source={require("./../../assets/icons/message-square.png")}
+                source={require("../../../assets/icons/message-square.png")}
                 style={styles.iconAddComment}
               />
               <TextInput
