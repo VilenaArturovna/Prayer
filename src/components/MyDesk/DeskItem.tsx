@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { colors } from "../../../assets/Colors";
 import { useNavigation } from "@react-navigation/native";
@@ -16,6 +16,7 @@ export const DeskItem = ({ id }: { id: number }) => {
   const columns = useSelector<RootStateType, Array<ColumnType>>(state => state.columns);
   const column = columns.find(column => column.id === id);
   const navigation = useNavigation<NavigationProp>();
+
   return (
     <TouchableOpacity style={styles.desk} onPress={() => navigation.navigate("Prayers", { id: column.id })}>
       <Text style={styles.deskTitle}>

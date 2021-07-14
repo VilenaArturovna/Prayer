@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
+  FlatList,
   Image,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
+  TextInput, TouchableHighlight,
   TouchableOpacity,
   View
 } from "react-native";
@@ -15,9 +16,14 @@ import { PrayerHeader } from "./PrayerHeader";
 import { Blocks } from "./Blocks";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useDispatch, useSelector } from "react-redux";
+import { types } from "../../redux/types";
+import { RequestStatusType } from "../../redux/reducers/auth-reducer";
+import { RootStateType } from "../../redux/store";
+import { CommentType, PrayerType } from "../../api/api";
 
 type RootStackParamList = {
-  Prayer: { text: string }
+  Prayer: { id: number }
 }
 
 type ProfileScreenRouteProp = RouteProp<RootStackParamList, "Prayer">;
@@ -31,69 +37,89 @@ type PropsType = {
 };
 
 export const PrayerDetails = ({ route, navigation }: PropsType) => {
-  const { text } = route.params;
+  const id = route.params.id;
+  const dispatch = useDispatch();
+  const status = useSelector<RootStateType, RequestStatusType>(state => state.auth.status);
+  const prayer = useSelector<RootStateType, PrayerType>(state => state.prayer);
+  const comments = useSelector<RootStateType, Array<CommentType>>(state => state.comments.filter(comment => comment.id === id));
+  const [newComment, setNewComment] = useState('')
+  useEffect(() => {
+    dispatch({ type: types.FETCH_PRAYER, payload: { prayerId: id } });
+    dispatch({ type: types.FETCH_COMMENTS });
+  }, []);
+
+  const addComment = () => {
+    dispatch({type: types.CREATE_COMMENT_REQUESTED, payload: {prayerId: prayer.id, body: newComment}})
+  }
+
   return (
     <>
       <SafeAreaView style={{ flex: 0, backgroundColor: colors.beige }} />
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-        <PrayerHeader title={text} />
-        <ScrollView>
-          <View style={styles.lastPrayed}>
+        <PrayerHeader title={prayer.title} />
+        <View style={styles.lastPrayed}>
+          <Image
+            source={require("../../../assets/icons/state.png")}
+            style={{ tintColor: colors.vinous }}
+          />
+          <Text style={styles.textLastPrayed}>
+            Last prayed 8 min ago
+          </Text>
+        </View>
+        <Blocks />
+        <View>
+          <Text style={styles.subtitle}>Members</Text>
+          <View style={styles.avatarsBlock}>
             <Image
-              source={require("../../../assets/icons/state.png")}
-              style={{ tintColor: colors.vinous }}
+              source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
+              style={styles.avatar}
             />
-            <Text style={styles.textLastPrayed}>
-              Last prayed 8 min ago
-            </Text>
-          </View>
-          <Blocks />
-          <View>
-            <Text style={styles.subtitle}>Members</Text>
-            <View style={styles.avatarsBlock}>
+            <Image
+              source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
+              style={styles.avatar}
+            />
+            <TouchableOpacity
+              style={styles.addMember}
+              onPress={() => {
+                return "add new member";
+              }}
+            >
               <Image
-                source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
-                style={styles.avatar}
+                style={styles.plusIcon}
+                source={require("../../../assets/icons/plus.png")}
               />
-              <Image
-                source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
-                style={styles.avatar}
-              />
-              <TouchableOpacity
-                style={styles.addMember}
-                onPress={() => {
-                  return "add new member";
-                }}
-              >
-                <Image
-                  style={styles.plusIcon}
-                  source={require("../../../assets/icons/plus.png")}
-                />
-              </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
           </View>
-          <View>
-            <Text style={styles.subtitle}>Comments</Text>
-            <Comment />
-            <Comment />
-            <Comment />
-            <Comment />
-            <View style={styles.addingComment}>
+        </View>
+        <View>
+          <Text style={styles.subtitle}>Comments</Text>
+          <FlatList data={comments} renderItem={item => (
+            <Comment
+              body={item.item.body}
+              id={item.item.id}
+              created={item.item.created}
+            />
+          )}
+          />
+          <View style={styles.addingComment}>
+            <TouchableHighlight onPress={addComment}>
               <Image
-                source={require("../../../assets/icons/message-square.png")}
-                style={styles.iconAddComment}
-              />
-              <TextInput
-                style={styles.textInput}
-                placeholder={"Add a comment..."}
-                placeholderTextColor={"#9C9C9C"}
-                autoCompleteType={"off"}
-                caretHidden={false}
-                selectionColor={colors.blue}
-              />
-            </View>
+              source={require("../../../assets/icons/message-square.png")}
+              style={styles.iconAddComment}
+            />
+            </TouchableHighlight>
+            <TextInput
+              style={styles.textInput}
+              placeholder={"Add a comment..."}
+              placeholderTextColor={"#9C9C9C"}
+              autoCompleteType={"off"}
+              caretHidden={false}
+              selectionColor={colors.blue}
+              value={newComment}
+              onChangeText={setNewComment}
+            />
           </View>
-        </ScrollView>
+        </View>
       </SafeAreaView>
     </>
   );

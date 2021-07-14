@@ -1,23 +1,34 @@
-import React from "react";
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  View
-} from "react-native";
+import React, { useState } from "react";
+import { FlatList, Image, Pressable, StyleSheet, Text, TextInput, TouchableHighlight, View } from "react-native";
 import { PrayerItem } from "./PrayerItem";
 import { colors } from "../../../assets/Colors";
+import { PrayerType } from "../../api/api";
+import { useDispatch } from "react-redux";
+import { types } from "../../redux/types";
 
-export const MyPrayers = () => {
+type PropsType = {
+  prayers: Array<PrayerType>
+  columnId: number
+}
+
+export const MyPrayers = ({ prayers, columnId }: PropsType) => {
+  const [newComment, setNewComment] = useState("");
+  const dispatch = useDispatch();
+  const addComment = () => {
+    dispatch({
+      type: types.CREATE_PRAYER_REQUESTED, payload: {
+        title: newComment,
+        description: "",
+        checked: false,
+        columnId
+      }
+    });
+  };
   return (
-    <ScrollView>
+    <View>
       <View style={styles.inputNewPrayer}>
         <View style={styles.inputContent}>
-          <Pressable>
+          <Pressable onPress={addComment}>
             <Image
               source={require("../../../assets/icons/plus.png")}
               style={styles.addIcon}
@@ -30,28 +41,33 @@ export const MyPrayers = () => {
             autoCompleteType={"off"}
             caretHidden={false}
             selectionColor={colors.blue}
+            value={newComment}
+            onChangeText={setNewComment}
           />
         </View>
       </View>
-      <PrayerItem
-        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
-        usersCount={3}
-        prayersCount={120}
+      <FlatList
+        data={prayers}
+        renderItem={(item) => (
+          <PrayerItem
+            title={item.item.title}
+            id={item.item.id}
+            checked={item.item.checked}
+            usersCount={3}
+            prayersCount={120}
+          />
+        )}
       />
-      <PrayerItem
-        text={"Lorem ipsum dolor sit amet, consectetur adipisicing elit  Lorem ipsum dolor sit amet, consectetur adipisicing elit"}
-        usersCount={0}
-        prayersCount={120}
-      />
-      <TouchableHighlight onPress={()=>{}}>
+      <TouchableHighlight onPress={() => {
+      }}>
         <View style={styles.button}>
           <Text style={styles.buttonTitle}>Show Answered Prayers</Text>
         </View>
       </TouchableHighlight>
-      <View style={{marginBottom: 100}} />
-    </ScrollView>
-  )
-}
+      <View style={{ marginBottom: 100 }} />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   inputNewPrayer: {
@@ -59,20 +75,20 @@ const styles = StyleSheet.create({
     borderColor: colors.lightgray,
     borderWidth: 1,
     borderRadius: 10,
-    marginVertical: 16,
+    marginVertical: 16
   },
   inputContent: {
     marginVertical: 13,
     marginLeft: 14,
-    flexDirection: "row",
+    flexDirection: "row"
   },
   addIcon: {
     width: 24,
-    height: 24,
+    height: 24
   },
   textInput: {
     marginLeft: 14,
-    fontSize: 17,
+    fontSize: 17
   },
   button: {
     marginVertical: 21,
@@ -80,7 +96,7 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 15,
     justifyContent: "center",
-    alignSelf: 'center',
+    alignSelf: "center"
 
   },
   buttonTitle: {
@@ -89,6 +105,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginHorizontal: 17,
     fontSize: 12,
-    lineHeight: 14,
-  },
-})
+    lineHeight: 14
+  }
+});

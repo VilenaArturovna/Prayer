@@ -1,9 +1,7 @@
 import { ColumnType } from "../../api/api";
 import { types } from "../types";
 
-const initialState: Array<ColumnType> = [
-  { id: 1, title: "YoYoYo", description: "" }
-];
+const initialState: Array<ColumnType> = [];
 type ActionsType =
   ReturnType<typeof setColumns> |
   ReturnType<typeof createColumn> |
@@ -12,13 +10,15 @@ type ActionsType =
 
 export const columnsReducer = (state = initialState, action: ActionsType) => {
   switch (action.type) {
-    case types.SET_COLUMNS: {
+    case types.SET_COLUMNS:
       return action.columns.map(column => ({ ...column }));
-    }
-    case types.CREATE_COLUMN: {
-      return [...state, { title: action.title, description: action.description }];
-    }
-    case types.UPDATE_COLUMN: {
+    case types.CREATE_COLUMN:
+      return [...state, {
+        title: action.column.title,
+        description: action.column.description,
+        id: action.column.id
+      }];
+    case types.UPDATE_COLUMN:
       const copyState = state.map(column => ({ ...column }));
       const column = copyState.find(column => column.id === action.columnId);
       if (column) {
@@ -26,35 +26,28 @@ export const columnsReducer = (state = initialState, action: ActionsType) => {
         column.description = action.description;
       }
       return copyState;
-    }
-    case types.DELETE_COLUMN: {
-      return state.map(column => ({ ...column })).filter(column => column.id !== action.columnId);
-    }
-
+    case types.DELETE_COLUMN:
+      return state.filter(column => column.id !== action.columnId);
     default:
       return state;
   }
 };
 
-const setColumns = (columns: Array<ColumnType>) => ({
-  type: types.SET_COLUMNS, columns
+export const setColumns = (columns: Array<ColumnType>) => ({
+  type: types.SET_COLUMNS,
+  columns
 } as const);
-const createColumn = (title: string, description: string) => ({
+export const createColumn = (column: ColumnType & { user: number }) => ({
   type: types.CREATE_COLUMN,
-  title,
-  description
+  column
 } as const);
-const updateColumn = (columnId: number, title: string, description: string) => ({
+export const updateColumn = (columnId: number, title: string, description: string) => ({
   type: types.UPDATE_COLUMN,
   columnId,
   title,
   description
 } as const);
-const deleteColumn = (columnId: number) => ({
+export const deleteColumn = (columnId: number) => ({
   type: types.DELETE_COLUMN,
   columnId
 } as const);
-const getColumnById = (columnId: number) => ({
-  type: types.GET_COLUMN,
-  columnId
-} as const)

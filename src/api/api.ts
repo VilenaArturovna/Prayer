@@ -4,7 +4,7 @@ const instance = axios.create({
   baseURL: "https://prayer.herokuapp.com",
   headers: {
     Authorization: "Bearer 24fc5746e07dcb81cd563a8aea1c33c03ff78d3bfdd4db6801ab2882bd9be120",
-    accept: "*/*",
+    accept: "*/*"
   }
 });
 
@@ -38,7 +38,7 @@ export const authAPI = {
 //columns
 export type ColumnType = {
   title: string
-  description: string | null
+  description: string
   id: number
 }
 type DeleteResponseType = {
@@ -49,17 +49,17 @@ export const columnsAPI = {
   getColumns() {
     return instance.get<Array<ColumnType & { userId: number }>>("/columns");
   },
-  createColumn(title: string,  description: string) {
-    return instance.post<ColumnType & { user: number }>("/columns", {title, description});
+  createColumn(title: string, description: string) {
+    return instance.post<ColumnType & { user: number }>("/columns", { title, description });
   },
   getColumnById(columnId: number) {
     return instance.get<ColumnType & { userId: number }>(`/columns/${columnId}`);
   },
   deleteColumn(columnId: number) {
-    return instance.delete<DeleteResponseType>(`/columns/${columnId}`)
+    return instance.delete<DeleteResponseType>(`/columns/${columnId}`);
   },
-  updateColumn(columnId: number, title: string,  description: string) {
-    return instance.put<ColumnType & { userId: number }>(`/columns/${columnId}`, {title, description})
+  updateColumn(columnId: number, title: string, description: string) {
+    return instance.put<ColumnType & { userId: number }>(`/columns/${columnId}`, { title, description });
   }
 };
 
@@ -70,31 +70,42 @@ export type PrayerType = {
   description: string | null
   checked: boolean
   columnId: number
+  id: number
 }
-type CreatePrayerResponseType = PrayerType & {
+
+export type CreatePrayerResponseType = PrayerType & {
   column: ColumnType & { userId: number }
-  id: number
 }
-type GetPrayerResponseType = PrayerType & {
+export type PrayerResponseType = PrayerType & {
   commentsIds: Array<{ commentId: number }>
-  id: number
 }
 export const prayersAPI = {
-  createPrayer(data: PrayerType) {
-    return instance.post<CreatePrayerResponseType>(`/columns/${data.columnId}/prayers`, {
-      title: data.title,
-      description: data.description,
-      checked: data.checked
+  createPrayer(
+    title: string,
+    description: string | null,
+    checked: boolean,
+    columnId: number
+  ) {
+    return instance.post<CreatePrayerResponseType>(`/columns/${columnId}/prayers`, {
+      title,
+      description,
+      checked
     });
   },
   getPrayers() {
-    return instance.get<Array<GetPrayerResponseType>>("/prayers");
+    return instance.get<Array<PrayerResponseType>>("/prayers");
   },
   getPrayerById(prayerId: number) {
-    return instance.get<GetPrayerResponseType>(`/prayers/${prayerId}`);
+    return instance.get<PrayerResponseType>(`/prayers/${prayerId}`);
   },
   deletePrayer(prayerId: number) {
     return instance.delete<DeleteResponseType>(`/prayers/${prayerId}`);
+  },
+  updatePrayer(title: string, checked: boolean, prayerId: number) {
+    return instance.put<PrayerResponseType>(`/prayers/${prayerId}`, {
+      title,
+      checked
+    });
   }
 };
 
@@ -104,19 +115,19 @@ export type CommentType = {
   id: number
   body: string
   created: string
-  prayerId: number
-  userId: number
+  prayerId?: number
+
 }
 type CreateCommentResponseType = CommentType & {
-  card: GetPrayerResponseType
+  card: PrayerResponseType
   user: SignInResponseType
 }
 export const commentsAPI = {
-  createComment(prayerId: number, body: string) {
-    return instance.post<CreateCommentResponseType>(`/prayers/${prayerId}/comments`, { body });
-  },
   getComments() {
-    return instance.get<Array<CommentType>>("/comments");
+    return instance.get<Array<CommentType & {userId: number}>>("/comments");
+  },
+  createComment(prayerId: number, body: string) {
+    return instance.post<CreateCommentResponseType & {userId: number}>(`/prayers/${prayerId}/comments`, { body });
   },
   deleteComment(commentId: number) {
     return instance.delete<DeleteResponseType>(`/comments/${commentId}`);

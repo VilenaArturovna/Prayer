@@ -1,13 +1,15 @@
-import React, { useState } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, SafeAreaView, ScrollView, View } from "react-native";
 import { MyPrayers } from "./MyPrayers";
 import { MyPrayersHeader } from "./MyPrayersHeader";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { colors } from "../../../assets/Colors";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootStateType } from "../../redux/store";
-import { ColumnType } from "../../api/api";
+import { ColumnType, PrayerType } from "../../api/api";
+import { types } from "../../redux/types";
+import { RequestStatusType } from "../../redux/reducers/auth-reducer";
 
 type RootStackParamList = {
   Prayers: { id: number };
@@ -20,17 +22,29 @@ type PropsType = {
 
 export const MyPrayersPage = ({ route }: PropsType) => {
   const id = route.params.id;
-  const columns = useSelector<RootStateType, Array<ColumnType>>(state => state.columns)
-  const column = columns.find(column => column.id === id)
+  const status = useSelector<RootStateType, RequestStatusType>(state => state.auth.status);
+  const column = useSelector<RootStateType, ColumnType>(state => state.column);
+  const prayers = useSelector<RootStateType, Array<PrayerType>>(state => state.prayers.filter(prayer => prayer.columnId === id))
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: types.FETCH_COLUMN, payload: { columnId: id } });
+    dispatch({ type: types.FETCH_PRAYERS });
+  }, []);
 
   return (
-    <SafeAreaView style={{backgroundColor: colors.white}}>
-      <MyPrayersHeader
-        id={id}
-      />
-      <ScrollView style={{backgroundColor: colors.white, minHeight: "100%"}}>
-        <MyPrayers />
-      </ScrollView>
+    <SafeAreaView style={{ backgroundColor: colors.white }}>
+      {status === "loading"
+        ? <ActivityIndicator size="large" color={colors.blue} />
+        : <>
+          <MyPrayersHeader
+            column={column}
+          />
+          <View style={{ backgroundColor: colors.white, minHeight: "100%" }}>
+            <MyPrayers prayers={prayers} columnId={id}/>
+          </View>
+        </>
+      }
     </SafeAreaView>
   );
 };

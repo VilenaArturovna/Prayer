@@ -8,7 +8,7 @@ import { ColumnType } from "../../api/api";
 import { types } from "../../redux/types";
 
 type RootStackParamList = {
-  UpdateColumn: { id: number }
+  UpdateColumn: { column: ColumnType }
 };
 
 type ProfileScreenRouteProp = RouteProp<RootStackParamList, "UpdateColumn">;
@@ -18,25 +18,24 @@ type PropsType = {
 };
 
 export const UpdateColumn = ({ route }: PropsType) => {
-  const id = route.params.id;
-  const columns = useSelector<RootStateType, Array<ColumnType>>(state => state.columns);
-  const column = columns.find(column => column.id === id);
+  const column = route.params.column;
   const [title, setTitle] = useState<string>(column.title);
   const [desc, setDesc] = useState<string>(column.description);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const updateColumn = () => {
-    navigation.goBack();
+
     dispatch({
       type: types.UPDATE_COLUMN_REQUESTED,
-      payload: { columnId: id, title, description: desc }
+      payload: { columnId: column.id, title, description: desc }
     });
+    navigation.navigate("Prayers", { id: column.id });
   };
   const deleteColumn = () => {
     navigation.navigate("MyDesk");
     dispatch({
-      type: types.DELETE_COLUMN_REQUESTED, payload: { columnId: id }
+      type: types.DELETE_COLUMN_REQUESTED, payload: { columnId: column.id }
     });
   };
 
