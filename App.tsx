@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { MyDesk } from "./src/components/MyDesk/MyDesk";
 import { MyPrayersPage } from "./src/components/MyPrayersPage/MyPrayersPage";
 import { PrayerDetails } from "./src/components/PrayerDetails/PrayerDetails";
@@ -6,29 +6,34 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { SignIn } from "./src/components/Authorization/SignIn";
 import { SignUp } from "./src/components/Authorization/SignUp";
-import { Provider, useDispatch, useSelector } from "react-redux";
-import { RootStateType, store } from "./src/redux/store";
+import { Provider } from "react-redux";
+import { store } from "./src/redux/store";
 import { NewColumn } from "./src/components/MyDesk/NewColumn";
 import { UpdateColumn } from "./src/components/MyDesk/UpdateColumn";
-import { types } from "./src/redux/types";
-import { ColumnType } from "./src/api/api";
+import { Welcome } from "./src/components/Welcome";
 
 const Stack = createStackNavigator();
 
 const App = () => {
-  /*const columns = useSelector<RootStateType, Array<ColumnType>>(state => state.columns);
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    console.log('reloaded!!');
-    dispatch({ type: types.FETCH_COLUMNS });
-  }, [columns]);*/
-
   return (
-      <NavigationContainer>
-      <Stack.Navigator>{/*
-        <Stack.Screen name={"SignIn"} component={SignIn} />
-        <Stack.Screen name={"SignUp"} component={SignUp} />*/}
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name={"Welcome"}
+          component={Welcome}
+          options={{ headerStyle: { height: 0 } }}
+        />
+        <Stack.Screen
+          name={"SignIn"}
+          component={SignIn}
+          options={
+            {
+              headerStyle: { height: 0 },
+              headerLeft: () => null
+            }
+          }
+        />
+        <Stack.Screen name={"SignUp"} component={SignUp} />
         <Stack.Screen
           name={"MyDesk"}
           component={MyDesk}
@@ -67,6 +72,6 @@ const App = () => {
 };
 
 const ProviderApp = () => {
-  return <Provider store={store}><App /></Provider>
-}
+  return <Provider store={store}><App /></Provider>;
+};
 export default ProviderApp;

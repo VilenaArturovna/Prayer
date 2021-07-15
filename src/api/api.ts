@@ -1,9 +1,13 @@
 import axios from "axios";
+import { store } from "../redux/store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+let token = store.getState().auth.userData.token;
+token = token || store.getState().auth.userData.token;
 const instance = axios.create({
   baseURL: "https://prayer.herokuapp.com",
   headers: {
-    Authorization: "Bearer 24fc5746e07dcb81cd563a8aea1c33c03ff78d3bfdd4db6801ab2882bd9be120",
+    Authorization: `Bearer ${token}`,
     accept: "*/*"
   }
 });
@@ -14,7 +18,7 @@ export type SignInParamsType = {
   password: string
 }
 export type SignUpParamsType = SignInParamsType & { name: string }
-type SignInResponseType = {
+export type SignInResponseType = {
   id: number
   email: string
   name: string
@@ -31,6 +35,15 @@ export const authAPI = {
   },
   signIn(data: SignInParamsType) {
     return instance.post<SignInResponseType>("/auth/sign-in", data);
+  },
+  setTokenToAsyncStorage(token: string) {
+    return AsyncStorage.setItem("token", token);
+  },
+  setIsLoggedInToAsyncStorage(value: boolean) {
+    return AsyncStorage.setItem("isLoggedIn", JSON.stringify(value));
+  },
+  logOut() {
+    return AsyncStorage.clear();
   }
 };
 
@@ -47,19 +60,44 @@ type DeleteResponseType = {
 }
 export const columnsAPI = {
   getColumns() {
-    return instance.get<Array<ColumnType & { userId: number }>>("/columns");
+    return instance.get<Array<ColumnType & { userId: number }>>("/columns", {
+      headers: {
+        Authorization: `Bearer ${store.getState().auth.userData.token}`,
+        accept: "*/*"
+      }
+    });
   },
   createColumn(title: string, description: string) {
-    return instance.post<ColumnType & { user: number }>("/columns", { title, description });
+    return instance.post<ColumnType & { user: number }>("/columns", { title, description }, {
+      headers: {
+        Authorization: `Bearer ${store.getState().auth.userData.token}`,
+        accept: "*/*"
+      }
+    });
   },
   getColumnById(columnId: number) {
-    return instance.get<ColumnType & { userId: number }>(`/columns/${columnId}`);
+    return instance.get<ColumnType & { userId: number }>(`/columns/${columnId}`, {
+      headers: {
+        Authorization: `Bearer ${store.getState().auth.userData.token}`,
+        accept: "*/*"
+      }
+    });
   },
   deleteColumn(columnId: number) {
-    return instance.delete<DeleteResponseType>(`/columns/${columnId}`);
+    return instance.delete<DeleteResponseType>(`/columns/${columnId}`, {
+      headers: {
+        Authorization: `Bearer ${store.getState().auth.userData.token}`,
+        accept: "*/*"
+      }
+    });
   },
   updateColumn(columnId: number, title: string, description: string) {
-    return instance.put<ColumnType & { userId: number }>(`/columns/${columnId}`, { title, description });
+    return instance.put<ColumnType & { userId: number }>(`/columns/${columnId}`, { title, description }, {
+      headers: {
+        Authorization: `Bearer ${store.getState().auth.userData.token}`,
+        accept: "*/*"
+      }
+    });
   }
 };
 
@@ -90,21 +128,46 @@ export const prayersAPI = {
       title,
       description,
       checked
+    }, {
+      headers: {
+        Authorization: `Bearer ${store.getState().auth.userData.token}`,
+        accept: "*/*"
+      }
     });
   },
   getPrayers() {
-    return instance.get<Array<PrayerResponseType>>("/prayers");
+    return instance.get<Array<PrayerResponseType>>("/prayers", {
+      headers: {
+        Authorization: `Bearer ${store.getState().auth.userData.token}`,
+        accept: "*/*"
+      }
+    });
   },
   getPrayerById(prayerId: number) {
-    return instance.get<PrayerResponseType>(`/prayers/${prayerId}`);
+    return instance.get<PrayerResponseType>(`/prayers/${prayerId}`, {
+      headers: {
+        Authorization: `Bearer ${store.getState().auth.userData.token}`,
+        accept: "*/*"
+      }
+    });
   },
   deletePrayer(prayerId: number) {
-    return instance.delete<DeleteResponseType>(`/prayers/${prayerId}`);
+    return instance.delete<DeleteResponseType>(`/prayers/${prayerId}`, {
+      headers: {
+        Authorization: `Bearer ${store.getState().auth.userData.token}`,
+        accept: "*/*"
+      }
+    });
   },
   updatePrayer(title: string, checked: boolean, prayerId: number) {
     return instance.put<PrayerResponseType>(`/prayers/${prayerId}`, {
       title,
       checked
+    }, {
+      headers: {
+        Authorization: `Bearer ${store.getState().auth.userData.token}`,
+        accept: "*/*"
+      }
     });
   }
 };
@@ -124,12 +187,27 @@ type CreateCommentResponseType = CommentType & {
 }
 export const commentsAPI = {
   getComments() {
-    return instance.get<Array<CommentType & {userId: number}>>("/comments");
+    return instance.get<Array<CommentType & { userId: number }>>("/comments", {
+      headers: {
+        Authorization: `Bearer ${store.getState().auth.userData.token}`,
+        accept: "*/*"
+      }
+    });
   },
   createComment(prayerId: number, body: string) {
-    return instance.post<CreateCommentResponseType & {userId: number}>(`/prayers/${prayerId}/comments`, { body });
+    return instance.post<CreateCommentResponseType & { userId: number }>(`/prayers/${prayerId}/comments`, { body }, {
+      headers: {
+        Authorization: `Bearer ${store.getState().auth.userData.token}`,
+        accept: "*/*"
+      }
+    });
   },
   deleteComment(commentId: number) {
-    return instance.delete<DeleteResponseType>(`/comments/${commentId}`);
+    return instance.delete<DeleteResponseType>(`/comments/${commentId}`, {
+      headers: {
+        Authorization: `Bearer ${store.getState().auth.userData.token}`,
+        accept: "*/*"
+      }
+    });
   }
 };

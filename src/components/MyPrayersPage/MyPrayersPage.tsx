@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { ActivityIndicator, SafeAreaView, ScrollView, View } from "react-native";
+import React, { useEffect } from "react";
+import { ActivityIndicator, SafeAreaView, View } from "react-native";
 import { MyPrayers } from "./MyPrayers";
 import { MyPrayersHeader } from "./MyPrayersHeader";
 import { RouteProp } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { colors } from "../../../assets/Colors";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStateType } from "../../redux/store";
@@ -18,7 +17,6 @@ type PrayersRouteProp = RouteProp<RootStackParamList, "Prayers">;
 type PropsType = {
   route: PrayersRouteProp;
 };
-
 
 export const MyPrayersPage = ({ route }: PropsType) => {
   const id = route.params.id;

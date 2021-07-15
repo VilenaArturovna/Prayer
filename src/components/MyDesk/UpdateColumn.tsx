@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableHighlight, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import { colors } from "../../../assets/Colors";
 import { RouteProp, useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
-import { RootStateType } from "../../redux/store";
+import { useDispatch } from "react-redux";
 import { ColumnType } from "../../api/api";
 import { types } from "../../redux/types";
+import { ButtonPrayer } from "../../../assets/ButtonPrayer";
 
 type RootStackParamList = {
   UpdateColumn: { column: ColumnType }
@@ -25,7 +25,6 @@ export const UpdateColumn = ({ route }: PropsType) => {
   const dispatch = useDispatch();
 
   const updateColumn = () => {
-
     dispatch({
       type: types.UPDATE_COLUMN_REQUESTED,
       payload: { columnId: column.id, title, description: desc }
@@ -53,16 +52,10 @@ export const UpdateColumn = ({ route }: PropsType) => {
         value={desc}
         onChangeText={setDesc}
       />
-      <View style={styles.btnGroup}><TouchableHighlight onPress={updateColumn}>
-        <View style={styles.button}>
-          <Text style={styles.buttonTitle}>Update column</Text>
-        </View>
-      </TouchableHighlight>
-        <TouchableHighlight onPress={deleteColumn}>
-          <View style={styles.button}>
-            <Text style={styles.buttonTitle}>Delete column</Text>
-          </View>
-        </TouchableHighlight></View>
+      <View style={styles.btnGroup}>
+        <ButtonPrayer title={"Update column"} onPress={updateColumn} />
+        <ButtonPrayer title={"Delete column"} onPress={deleteColumn} />
+      </View>
     </View>
   );
 };
@@ -87,22 +80,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center"
-  },
-  button: {
-    marginVertical: 21,
-    marginHorizontal: 5,
-    backgroundColor: colors.beige,
-    height: 30,
-    borderRadius: 15,
-    justifyContent: "center",
-    alignSelf: "center"
-  },
-  buttonTitle: {
-    textTransform: "uppercase",
-    color: colors.white,
-    textAlign: "center",
-    marginHorizontal: 17,
-    fontSize: 12,
-    lineHeight: 14
   }
 });

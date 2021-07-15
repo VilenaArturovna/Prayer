@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableHighlight, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import { colors } from "../../../assets/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { types } from "../../redux/types";
+import { ButtonPrayer } from "../../../assets/ButtonPrayer";
 
 export const NewColumn = () => {
   const [title, setTitle] = useState<string>("");
@@ -29,11 +30,7 @@ export const NewColumn = () => {
         value={desc}
         onChangeText={setDesc}
       />
-      <TouchableHighlight onPress={createColumn}>
-        <View style={styles.button}>
-          <Text style={styles.buttonTitle}>Create column</Text>
-        </View>
-      </TouchableHighlight>
+      <ButtonPrayer title={"Create column"} onPress={createColumn} />
     </View>
   );
 };
@@ -53,21 +50,5 @@ const styles = StyleSheet.create({
     borderColor: colors.lightgray,
     marginTop: 10,
     padding: 5
-  },
-  button: {
-    marginVertical: 21,
-    backgroundColor: colors.beige,
-    height: 30,
-    borderRadius: 15,
-    justifyContent: "center",
-    alignSelf: "center"
-  },
-  buttonTitle: {
-    textTransform: "uppercase",
-    color: colors.white,
-    textAlign: "center",
-    marginHorizontal: 17,
-    fontSize: 12,
-    lineHeight: 14
   }
 });

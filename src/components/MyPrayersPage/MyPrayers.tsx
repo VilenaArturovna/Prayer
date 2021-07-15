@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { FlatList, Image, Pressable, StyleSheet, Text, TextInput, TouchableHighlight, View } from "react-native";
+import { FlatList, Image, Pressable, StyleSheet, TextInput, View } from "react-native";
 import { PrayerItem } from "./PrayerItem";
 import { colors } from "../../../assets/Colors";
 import { PrayerType } from "../../api/api";
 import { useDispatch } from "react-redux";
 import { types } from "../../redux/types";
+import { ButtonPrayer } from "../../../assets/ButtonPrayer";
 
 type PropsType = {
   prayers: Array<PrayerType>
@@ -58,12 +59,11 @@ export const MyPrayers = ({ prayers, columnId }: PropsType) => {
           />
         )}
       />
-      <TouchableHighlight onPress={() => {
-      }}>
-        <View style={styles.button}>
-          <Text style={styles.buttonTitle}>Show Answered Prayers</Text>
-        </View>
-      </TouchableHighlight>
+      <ButtonPrayer
+        title={"Show Answered Prayers"}
+        onPress={() => {
+        }}
+      />
       <View style={{ marginBottom: 100 }} />
     </View>
   );
@@ -89,22 +89,5 @@ const styles = StyleSheet.create({
   textInput: {
     marginLeft: 14,
     fontSize: 17
-  },
-  button: {
-    marginVertical: 21,
-    backgroundColor: colors.beige,
-    height: 30,
-    borderRadius: 15,
-    justifyContent: "center",
-    alignSelf: "center"
-
-  },
-  buttonTitle: {
-    textTransform: "uppercase",
-    color: colors.white,
-    textAlign: "center",
-    marginHorizontal: 17,
-    fontSize: 12,
-    lineHeight: 14
   }
 });

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import {
   ActivityIndicator,
+  Button, Dimensions,
   FlatList,
   Image,
   SafeAreaView,
@@ -18,6 +19,8 @@ import { ColumnType } from "../../api/api";
 import { useNavigation } from "@react-navigation/native";
 import { RequestStatusType } from "../../redux/reducers/auth-reducer";
 
+const width = Dimensions.get("window").width
+
 export const MyDesk = () => {
   const columns = useSelector<RootStateType, Array<ColumnType>>(state => state.columns);
   const appStatus = useSelector<RootStateType, RequestStatusType>(state => state.auth.status);
@@ -25,20 +28,22 @@ export const MyDesk = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('reloaded!!!!');
     dispatch({ type: types.FETCH_COLUMNS });
   }, []);
 
+  const logOut = () => {
+    dispatch({type: types.LOG_OUT_REQUESTED})
+    navigation.navigate('SignIn')
+  }
   return (
     <SafeAreaView style={{ backgroundColor: colors.white, minHeight: "100%" }}>
       {appStatus === "loading"
         ? <ActivityIndicator size="large" color={colors.blue} />
         : <>
           <View style={styles.header}>
-            <View style={styles.container}>
+            <Button title={'LOG OUT'} onPress={logOut} color={colors.primary} />
               <Text style={styles.title}>My Desk</Text>
               <TouchableOpacity
-                style={styles.icon}
                 onPress={() => navigation.navigate("NewColumn")}
               >
                 <Image
@@ -46,7 +51,6 @@ export const MyDesk = () => {
                   source={require("../../../assets/icons/plus.png")}
                 />
               </TouchableOpacity>
-            </View>
           </View>
           <FlatList style={{paddingTop: 5}}
             data={columns}
@@ -66,22 +70,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.lightgray,
     textAlign: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 15
   },
   title: {
     color: colors.primary,
-    textAlign: "center",
     fontSize: 17,
-    width: 137
-  },
-  container: {
-    justifyContent: "center",
-    flexDirection: "row"
-  },
-  icon: {
     position: "absolute",
-    right: 15
+    width: 100,
+    left: width/2 - 50
   },
+
   iconImage: {
     width: 16,
     height: 16

@@ -31,44 +31,60 @@ function* setPrayersWorker(): any {
 
 function* createPrayerWorker({ payload }: { payload: CreatePrayerActionType }): any {
   yield put(setAppStatusAC("loading"));
-  const data = yield call(prayersAPI.createPrayer, payload.title, payload.description, payload.checked, payload.columnId);
-  const prayer = data.data;
-  yield put(createPrayer({
-    title: prayer.title,
-    description: prayer.description,
-    checked: prayer.checked,
-    columnId: prayer.columnId,
-    id: prayer.id
-  }));
+  try {
+    const data = yield call(prayersAPI.createPrayer, payload.title, payload.description, payload.checked, payload.columnId);
+    const prayer = data.data;
+    yield put(createPrayer({
+      title: prayer.title,
+      description: prayer.description,
+      checked: prayer.checked,
+      columnId: prayer.columnId,
+      id: prayer.id
+    }));
+  } catch (e) {
+    alert(e)
+  }
   yield put(setAppStatusAC("succeeded"));
 }
 
 function* deletePrayerWorker({ payload }: PrayerIdActionType) {
   yield put(setAppStatusAC("loading"));
-  yield call(prayersAPI.deletePrayer, payload.prayerId);
-  yield put(deletePrayer(payload.prayerId));
+  try {
+    yield call(prayersAPI.deletePrayer, payload.prayerId);
+    yield put(deletePrayer(payload.prayerId));
+  } catch (e) {
+    alert(e)
+  }
   yield put(setAppStatusAC("succeeded"));
 }
 
 function* updatePrayerWorker({ payload }: UpdatePrayerActionType): any {
   yield put(setAppStatusAC("loading"));
-  const data = yield call(prayersAPI.updatePrayer, payload.title, payload.checked, payload.prayerId);
-  const prayer = data.data;
-  yield put(updatePrayer(prayer.title, prayer.checked, prayer.id));
+  try {
+    const data = yield call(prayersAPI.updatePrayer, payload.title, payload.checked, payload.prayerId);
+    const prayer = data.data;
+    yield put(updatePrayer(prayer.title, prayer.checked, prayer.id));
+  } catch (e) {
+    alert(e)
+  }
   yield put(setAppStatusAC("succeeded"));
 }
 
 function* getPrayerWorker({ payload }: PrayerIdActionType): any {
   yield put(setAppStatusAC("loading"));
-  const data = yield call(prayersAPI.getPrayerById, payload.prayerId);
-  const prayer = data.data;
-  yield put(getPrayerById({
-    title: prayer.title,
-    description: prayer.description,
-    checked: prayer.checked,
-    columnId: prayer.columnId,
-    id: prayer.id
-  }));
+  try {
+    const data = yield call(prayersAPI.getPrayerById, payload.prayerId);
+    const prayer = data.data;
+    yield put(getPrayerById({
+      title: prayer.title,
+      description: prayer.description,
+      checked: prayer.checked,
+      columnId: prayer.columnId,
+      id: prayer.id
+    }));
+  } catch (e) {
+    alert(e)
+  }
   yield put(setAppStatusAC("succeeded"));
 }
 
