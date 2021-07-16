@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
   inputContent: {
     marginVertical: 13,
     marginLeft: 14,
-    flexDirection: "row"
+    flexDirection: "row",
+    alignItems: "center"
   },
   addIcon: {
     width: 24,

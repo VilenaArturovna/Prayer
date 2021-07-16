@@ -17,54 +17,30 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen
           name={"Welcome"}
           component={Welcome}
-          options={{ headerStyle: { height: 0 } }}
         />
         <Stack.Screen
           name={"SignIn"}
           component={SignIn}
-          options={
-            {
-              headerStyle: { height: 0 },
-              headerLeft: () => null
-            }
-          }
         />
         <Stack.Screen name={"SignUp"} component={SignUp} />
         <Stack.Screen
           name={"MyDesk"}
           component={MyDesk}
-          options={
-            {
-              headerStyle: { height: 0 },
-              headerLeft: () => null
-            }
-          }
         />
         <Stack.Screen name={"NewColumn"} component={NewColumn} />
         <Stack.Screen name={"UpdateColumn"} component={UpdateColumn} />
         <Stack.Screen
           name={"Prayers"}
           component={MyPrayersPage}
-          options={
-            {
-              headerStyle: { height: 0 },
-              headerLeft: () => null
-            }
-          }
+
         />
         <Stack.Screen
           name={"Prayer"}
           component={PrayerDetails}
-          options={
-            {
-              headerStyle: { height: 0 },
-              headerLeft: () => null
-            }
-          }
         />
       </Stack.Navigator>
     </NavigationContainer>
