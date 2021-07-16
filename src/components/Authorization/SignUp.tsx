@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { ActivityIndicator, StyleSheet, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { types } from "../../redux/types";
 import { useNavigation } from "@react-navigation/native";
 import { RootStateType } from "../../redux/store";
 import { colors } from "../../../assets/Colors";
 import { ButtonPrayer } from "../../../assets/ButtonPrayer";
+import { RequestStatusType } from "../../redux/reducers/auth-reducer";
 
 export const SignUp = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ export const SignUp = () => {
   const [password, onChangePassword] = useState<string>("");
   const navigation = useNavigation();
   const isLoggedIn = useSelector<RootStateType, boolean>(state => state.auth.isLoggedIn);
+  const status = useSelector<RootStateType, RequestStatusType>(state => state.auth.status);
 
   const signUp = () => {
     dispatch({ type: types.SIGN_UP_REQUESTED, payload: { email: email.toLowerCase(), password, name } });
@@ -24,6 +26,7 @@ export const SignUp = () => {
   };
   return (
     <View style={styles.container}>
+      {status === "loading" && <ActivityIndicator size="large" color={colors.blue} />}
       <TextInput
         value={name}
         onChangeText={onChangeName}

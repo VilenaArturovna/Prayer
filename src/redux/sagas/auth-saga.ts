@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import { authAPI, SignInParamsType, SignInResponseType, SignUpParamsType } from "../../api/api";
 import { types } from "../types";
-import { logOutAC, setTokenAC, signInAC } from "../reducers/auth-reducer";
+import { logOutAC, setAppStatusAC, setTokenAC, signInAC } from "../reducers/auth-reducer";
 
 type ActionSignUpType = {
   payload: SignUpParamsType
@@ -27,28 +27,36 @@ function* signInUp(data: any) {
 }
 
 function* signUpWorker({payload}: ActionSignUpType): any {
+  yield put(setAppStatusAC("loading"));
   try {
     const data = yield call(authAPI.signUp, payload);
     yield call(signInUp, data.data)
   } catch (e) {
     alert(e);
   }
+  yield put(setAppStatusAC("succeeded"));
 }
 function* signInWorker({payload}: ActionSignInType): any {
+  yield put(setAppStatusAC("loading"));
   try {
     const data = yield call(authAPI.signIn, payload);
     yield call(signInUp, data.data)
   } catch (e) {
     alert(e);
   }
+  yield put(setAppStatusAC("succeeded"));
 }
 function* setTokenWorker({payload}: {payload: {token: string}}) {
+  yield put(setAppStatusAC("loading"));
   yield put(setTokenAC(payload.token))
+  yield put(setAppStatusAC("succeeded"));
 }
 function* logOutWorker() {
+  yield put(setAppStatusAC("loading"));
   yield put(logOutAC())
   yield call(authAPI.setIsLoggedInToAsyncStorage, false)
   yield call(authAPI.setTokenToAsyncStorage, '')
+  yield put(setAppStatusAC("succeeded"));
 }
 
 export function* authSaga() {

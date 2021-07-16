@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { types } from "../../redux/types";
 import { RootStateType } from "../../redux/store";
 import { ButtonPrayer } from "../../../assets/ButtonPrayer";
 import { colors } from "../../../assets/Colors";
+import { RequestStatusType } from "../../redux/reducers/auth-reducer";
 
 export const SignIn = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ export const SignIn = () => {
   const [email, onChangeEmail] = useState<string>("");
   const [password, onChangePassword] = useState<string>("");
   const isLoggedIn = useSelector<RootStateType, boolean>(state => state.auth.isLoggedIn);
+  const status = useSelector<RootStateType, RequestStatusType>(state => state.auth.status);
   isLoggedIn && navigation.navigate("MyDesk");
   const signIn = () => {
     dispatch({ type: types.SIGN_IN_REQUESTED, payload: { email: email.toLowerCase(), password } });
@@ -21,6 +23,7 @@ export const SignIn = () => {
   };
   return (
     <View style={styles.container}>
+      {status === "loading" && <ActivityIndicator size="large" color={colors.blue} />}
       <TextInput
         value={email}
         onChangeText={onChangeEmail}
