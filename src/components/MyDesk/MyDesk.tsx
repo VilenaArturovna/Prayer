@@ -21,6 +21,8 @@ import { RequestStatusType } from "../../redux/reducers/auth-reducer";
 
 const width = Dimensions.get("window").width
 
+// REVU: разделить компоненты на screens и components(косается всех компонетов)
+
 export const MyDesk = () => {
   const columns = useSelector<RootStateType, Array<ColumnType>>(state => state.columns);
   const appStatus = useSelector<RootStateType, RequestStatusType>(state => state.auth.status);

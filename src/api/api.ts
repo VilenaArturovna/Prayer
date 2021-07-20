@@ -12,6 +12,10 @@ const instance = axios.create({
   }
 });
 
+//REVU: Разбить на несколько файлов, по работе с каждой сущностью отдельно
+// axios и asyncStorage можно вынести в отдельные файлы тоже
+
+// REVU: По возможности, вынести все типы в отдельный файлы types.ts
 //authorization
 export type SignInParamsType = {
   email: string
@@ -39,6 +43,8 @@ export const authAPI = {
   setTokenToAsyncStorage(token: string) {
     return AsyncStorage.setItem("token", token);
   },
+  // Хранить флаг isLoggedIn на клиенте не правильно, решать кто залогинен а кто нет должен бэкенд
+  // Если такой флаг где-то нужен, лучше хранить его в стайте редакса
   setIsLoggedInToAsyncStorage(value: boolean) {
     return AsyncStorage.setItem("isLoggedIn", JSON.stringify(value));
   },

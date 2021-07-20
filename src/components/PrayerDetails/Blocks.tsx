@@ -10,6 +10,7 @@ type BlockType = {
 }
 
 export const Blocks = () => {
+  // REVU: вынести в файл с константами
   const blocks: Array<BlockType> = [
     { count: 123, text: "Total" },
     { count: 63, text: "by Me" },

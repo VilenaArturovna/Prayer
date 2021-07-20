@@ -22,6 +22,9 @@ export const SignUp = () => {
     onChangeEmail("");
     onChangePassword("");
     onChangeName("");
+    // REVU: Имеет смысл проверять isLoggedIn до запроса на регистрацию,
+    // После, если запрос был удачным, то просто отправлять на начальный экран
+    // Где будет логика аутентификации
     isLoggedIn && navigation.navigate("MyDesk");
   };
   return (

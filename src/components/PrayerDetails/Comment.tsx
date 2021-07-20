@@ -11,6 +11,8 @@ type PropsType = {
   id: number
 }
 
+
+// REVU: вынести в utils.ts
 const dateCalc = (created: string) => {
   const elapsed = (new Date().getTime() - new Date(created).getTime()) / 1000;
   if (elapsed < 60) {
@@ -25,6 +27,7 @@ const dateCalc = (created: string) => {
 };
 
 export const Comment = ({ body, created, id }: PropsType) => {
+  // REVU: date
   const data = dateCalc(created);
   const swipeBtn = [{
     text: "Delete",
@@ -35,6 +38,7 @@ export const Comment = ({ body, created, id }: PropsType) => {
   const deleteComment = () => {
     dispatch({ type: types.DELETE_COMMENT_REQUESTED, payload: { commentId: id } });
   };
+  // REVU: Почему захардкодено имя пользователя?
   return (
     <Swipeout right={swipeBtn} backgroundColor={colors.white} autoClose>
       <View style={styles.commentItem}>

@@ -10,6 +10,9 @@ import { ButtonPrayer } from "../../assets/ButtonPrayer";
 export const Welcome = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+  // REVU: Здесь, лучше запрашивать какие-то инициализирующие данные, например объект пользователя,
+  // при этом на бэкенде будет провалидирован токен, на случай если он невалидный или устарел
   useEffect(() => {
     AsyncStorage.getItem("token")
       .then((value) =>
@@ -18,7 +21,6 @@ export const Welcome = () => {
     AsyncStorage.getItem("isLoggedIn").then((value) => {
       console.log(value);
       value === "true" ? navigation.navigate("MyDesk") : navigation.navigate("SignIn");
-
     });
 
   });

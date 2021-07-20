@@ -3,6 +3,7 @@ import { authAPI, SignInParamsType, SignInResponseType, SignUpParamsType } from 
 import { types } from "../types";
 import { logOutAC, setAppStatusAC, setTokenAC, signInAC } from "../reducers/auth-reducer";
 
+// REVU: лучше будет вынести в отдельный файл c типами
 type ActionSignUpType = {
   payload: SignUpParamsType
 }
@@ -10,6 +11,7 @@ type ActionSignInType = {
   payload: SignInParamsType
 }
 
+// REVU: Будет лучше разделить логику signUp'a и signIn'a даже если они сейчас одинаковы
 function* signInUp(data: any) {
   if (data.id) {
     const userData: SignInResponseType = data
@@ -59,6 +61,8 @@ function* logOutWorker() {
   yield put(setAppStatusAC("succeeded"));
 }
 
+
+// REVU: Тут логичнее использовать takeLatest
 export function* authSaga() {
   yield takeEvery(types.SIGN_UP_REQUESTED, signUpWorker);
   yield takeEvery(types.SIGN_IN_REQUESTED, signInWorker);

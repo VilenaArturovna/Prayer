@@ -43,12 +43,16 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
   }
 };
 
+
+// REVU: вынести в actionTypes.ts
 export const setIsLoggedInAC = (value: boolean) => ({ type: types.SET_IS_LOGGED_IN, value } as const);
 export const setAppStatusAC = (status: RequestStatusType) => ({ type: types.APP_SET_STATUS, status } as const);
 export const signInAC = (data: SignInResponseType) => ({
   type: types.SIGN_IN_UP,
   data
 } as const);
+
+// REVU: нет никакого смысла хранить токен в стайте, т.к. он есть в сторадже
 export const setTokenAC = (token: string) => ({
   type: types.SET_TOKEN,
   token

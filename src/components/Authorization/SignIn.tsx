@@ -16,6 +16,9 @@ export const SignIn = () => {
   const isLoggedIn = useSelector<RootStateType, boolean>(state => state.auth.isLoggedIn);
   const status = useSelector<RootStateType, RequestStatusType>(state => state.auth.status);
   isLoggedIn && navigation.navigate("MyDesk");
+  // REVU: нет валидации введенных данных
+  // Что будет если в запросе упадет ошибка?
+  // Нужно ли очищать поле с емайлом?
   const signIn = () => {
     dispatch({ type: types.SIGN_IN_REQUESTED, payload: { email: email.toLowerCase(), password } });
     onChangeEmail("");
