@@ -1,5 +1,6 @@
 import { types } from "../types";
-import { ColumnType } from "../../api/api";
+import { ColumnType } from "../../api/types";
+import { getColumnById } from "./actionCreators";
 
 const initialState: ColumnType = {
   title: "Hey",
@@ -18,7 +19,3 @@ export const columnReducer = (state: ColumnType = initialState, action: ReturnTy
   }
 };
 
-export const getColumnById = (column: ColumnType) => ({
-  type: types.GET_COLUMN,
-  column
-} as const);

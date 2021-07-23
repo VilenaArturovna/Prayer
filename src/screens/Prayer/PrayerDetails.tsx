@@ -12,16 +12,14 @@ import {
   View
 } from "react-native";
 import { colors } from "../../../assets/Colors";
-import { Comment } from "./Comment";
-import { PrayerHeader } from "./PrayerHeader";
-import { Blocks } from "./Blocks";
+import { PrayerHeader, Comment, Blocks } from "../../components/PrayerDetails";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useDispatch, useSelector } from "react-redux";
 import { types } from "../../redux/types";
-import { RequestStatusType } from "../../redux/reducers/auth-reducer";
 import { RootStateType } from "../../redux/store";
-import { CommentType, PrayerType } from "../../api/api";
+import { CommentType, PrayerType, RequestStatusType } from "../../api/types";
+import { getAppStatus, getCommentForPrayer, getPrayer } from "../../redux/selectors";
 
 type RootStackParamList = {
   Prayer: { id: number }
@@ -40,9 +38,9 @@ type PropsType = {
 export const PrayerDetails = ({ route, navigation }: PropsType) => {
   const id = route.params.id;
   const dispatch = useDispatch();
-  const status = useSelector<RootStateType, RequestStatusType>(state => state.auth.status);
-  const prayer = useSelector<RootStateType, PrayerType>(state => state.prayer);
-  const comments = useSelector<RootStateType, Array<CommentType>>(state => state.comments.filter(comment => comment.prayerId === id));
+  const status = useSelector<RootStateType, RequestStatusType>(getAppStatus);
+  const prayer = useSelector<RootStateType, PrayerType>(getPrayer);
+  const comments = useSelector<RootStateType, Array<CommentType>>(state => getCommentForPrayer(state, id));
   const [newComment, setNewComment] = useState("");
   useEffect(() => {
     dispatch({ type: types.FETCH_PRAYER, payload: { prayerId: id } });

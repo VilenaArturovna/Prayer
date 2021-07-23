@@ -1,14 +1,9 @@
-import { call, put, takeEvery } from "redux-saga/effects";
-import { authAPI, SignInParamsType, SignInResponseType, SignUpParamsType } from "../../api/api";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { types } from "../types";
-import { logOutAC, setAppStatusAC, setTokenAC, signInAC } from "../reducers/auth-reducer";
-
-type ActionSignUpType = {
-  payload: SignUpParamsType
-}
-type ActionSignInType = {
-  payload: SignInParamsType
-}
+import { authAPI } from "../../api/authAPI";
+import { SignInResponseType } from "../../api/types";
+import { logOutAC, setAppStatusAC, setTokenAC, signInAC } from "../reducers/actionCreators";
+import { ActionSignInType, ActionSignUpType } from "./types";
 
 function* signInUp(data: any) {
   if (data.id) {
@@ -60,8 +55,8 @@ function* logOutWorker() {
 }
 
 export function* authSaga() {
-  yield takeEvery(types.SIGN_UP_REQUESTED, signUpWorker);
-  yield takeEvery(types.SIGN_IN_REQUESTED, signInWorker);
-  yield takeEvery(types.SET_TOKEN_REQUESTED, setTokenWorker);
-  yield takeEvery(types.LOG_OUT_REQUESTED, logOutWorker)
+  yield takeLatest(types.SIGN_UP_REQUESTED, signUpWorker);
+  yield takeLatest(types.SIGN_IN_REQUESTED, signInWorker);
+  yield takeLatest(types.SET_TOKEN_REQUESTED, setTokenWorker);
+  yield takeLatest(types.LOG_OUT_REQUESTED, logOutWorker)
 }

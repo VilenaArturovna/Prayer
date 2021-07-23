@@ -1,20 +1,8 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { types } from "../types";
-import { commentsAPI } from "../../api/api";
-import { setAppStatusAC } from "../reducers/auth-reducer";
-import { createComment, deleteComment, setComments } from "../reducers/comments-reducer";
-
-type CreateCommentActionType = {
-  payload: {
-    prayerId: number
-    body: string
-  }
-}
-type CommentIdActionType = {
-  payload: {
-    commentId: number
-  }
-}
+import { commentsAPI } from "../../api/commentsAPI";
+import { createComment, deleteComment, setAppStatusAC, setComments } from "../reducers/actionCreators";
+import { CommentIdActionType, CreateCommentActionType } from "./types";
 
 function* setCommentsWorker(): any {
   yield put(setAppStatusAC("loading"));
@@ -57,7 +45,7 @@ function* deleteCommentWorker({ payload }: CommentIdActionType): any {
 
 
 export function* commentsSaga() {
-  yield takeEvery(types.FETCH_COMMENTS, setCommentsWorker);
-  yield takeEvery(types.CREATE_COMMENT_REQUESTED, createCommentWorker);
-  yield takeEvery(types.DELETE_COMMENT_REQUESTED, deleteCommentWorker);
+  yield takeLatest(types.FETCH_COMMENTS, setCommentsWorker);
+  yield takeLatest(types.CREATE_COMMENT_REQUESTED, createCommentWorker);
+  yield takeLatest(types.DELETE_COMMENT_REQUESTED, deleteCommentWorker);
 }

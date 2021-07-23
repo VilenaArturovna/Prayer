@@ -1,16 +1,16 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { types } from "../types";
-import { prayersAPI } from "../../api/api";
-import { createPrayer, deletePrayer, setPrayers, updatePrayer } from "../reducers/prayers-reducer";
-import { setAppStatusAC } from "../reducers/auth-reducer";
-import { getPrayerById } from "../reducers/prayer-reducer";
+import { prayersAPI } from "../../api/prayersAPI";
+import {
+  createPrayer,
+  deletePrayer,
+  getPrayerById,
+  setAppStatusAC,
+  setPrayers,
+  updatePrayer
+} from "../reducers/actionCreators";
+import { CreatePrayerActionType } from "./types";
 
-type CreatePrayerActionType = {
-  title: string
-  description: string
-  checked: boolean
-  columnId: number
-}
 type PrayerIdActionType = {
   payload: {
     prayerId: number
@@ -89,9 +89,9 @@ function* getPrayerWorker({ payload }: PrayerIdActionType): any {
 }
 
 export function* prayersSaga() {
-  yield takeEvery(types.FETCH_PRAYERS, setPrayersWorker);
-  yield takeEvery(types.CREATE_PRAYER_REQUESTED, createPrayerWorker);
-  yield takeEvery(types.DELETE_PRAYER_REQUESTED, deletePrayerWorker);
-  yield takeEvery(types.UPDATE_PRAYER_REQUESTED, updatePrayerWorker);
-  yield takeEvery(types.FETCH_PRAYER, getPrayerWorker);
+  yield takeLatest(types.FETCH_PRAYERS, setPrayersWorker);
+  yield takeLatest(types.CREATE_PRAYER_REQUESTED, createPrayerWorker);
+  yield takeLatest(types.DELETE_PRAYER_REQUESTED, deletePrayerWorker);
+  yield takeLatest(types.UPDATE_PRAYER_REQUESTED, updatePrayerWorker);
+  yield takeLatest(types.FETCH_PRAYER, getPrayerWorker);
 }

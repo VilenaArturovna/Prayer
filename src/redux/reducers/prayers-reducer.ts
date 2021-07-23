@@ -1,14 +1,10 @@
-import { ColumnType, PrayerResponseType, PrayerType } from "../../api/api";
 import { types } from "../types";
+import { PrayerType } from "../../api/types";
+import { prayersActionsType } from "./actionCreators";
 
 const initialState: Array<PrayerType> = [];
-type ActionsType =
-  ReturnType<typeof setPrayers> |
-  ReturnType<typeof createPrayer> |
-  ReturnType<typeof updatePrayer> |
-  ReturnType<typeof deletePrayer>
 
-export const prayersReducer = (state = initialState, action: ActionsType) => {
+export const prayersReducer = (state = initialState, action: prayersActionsType) => {
   switch (action.type) {
     case types.SET_PRAYERS: {
       return action.prayers.map(prayer => ({ ...prayer }));
@@ -32,22 +28,3 @@ export const prayersReducer = (state = initialState, action: ActionsType) => {
       return state;
   }
 };
-
-export const setPrayers = (prayers: Array<PrayerResponseType>) => ({
-  type: types.SET_PRAYERS,
-  prayers
-} as const);
-export const createPrayer = (prayer: PrayerType) => ({
-  type: types.CREATE_PRAYER,
-  prayer
-} as const);
-export const deletePrayer = (id: number) => ({
-  type: types.DELETE_PRAYER,
-  id
-} as const);
-export const updatePrayer = (title: string, checked: boolean, prayerId: number) => ({
-  type: types.UPDATE_PRAYER,
-  title,
-  checked,
-  prayerId
-} as const);

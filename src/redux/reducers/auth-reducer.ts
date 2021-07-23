@@ -1,5 +1,6 @@
 import { types } from "../types";
-import { SignInResponseType } from "../../api/api";
+import { RequestStatusType, SignInResponseType } from "../../api/types";
+import { authActionsType } from "./actionCreators";
 
 const initialState: InitialStateType = {
   isLoggedIn: false,
@@ -11,20 +12,13 @@ const initialState: InitialStateType = {
     token: ""
   }
 };
-export type RequestStatusType = "loading" | "succeeded"
 type InitialStateType = {
   isLoggedIn: boolean
   status: RequestStatusType
   userData: SignInResponseType
 }
-type ActionsType =
-  ReturnType<typeof setIsLoggedInAC> |
-  ReturnType<typeof setAppStatusAC> |
-  ReturnType<typeof signInAC> |
-  ReturnType<typeof setTokenAC> |
-  ReturnType<typeof logOutAC>
 
-export const authReducer = (state: InitialStateType = initialState, action: ActionsType) => {
+export const authReducer = (state: InitialStateType = initialState, action: authActionsType) => {
   switch (action.type) {
     case types.SET_IS_LOGGED_IN:
       return { ...state, isLoggedIn: action.value };
@@ -42,15 +36,3 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
       return state;
   }
 };
-
-export const setIsLoggedInAC = (value: boolean) => ({ type: types.SET_IS_LOGGED_IN, value } as const);
-export const setAppStatusAC = (status: RequestStatusType) => ({ type: types.APP_SET_STATUS, status } as const);
-export const signInAC = (data: SignInResponseType) => ({
-  type: types.SIGN_IN_UP,
-  data
-} as const);
-export const setTokenAC = (token: string) => ({
-  type: types.SET_TOKEN,
-  token
-} as const);
-export const logOutAC = () => ({ type: types.LOG_OUT } as const);

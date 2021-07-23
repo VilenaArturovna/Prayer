@@ -1,5 +1,6 @@
-import { PrayerType } from "../../api/api";
 import { types } from "../types";
+import { PrayerType } from "../../api/types";
+import { getPrayerById } from "./actionCreators";
 
 const initialState: PrayerType = {
   title: "Hey",
@@ -18,8 +19,3 @@ export const prayerReducer = (state = initialState, action: ReturnType<typeof ge
       return state;
   }
 };
-
-export const getPrayerById = (prayer: PrayerType) => ({
-  type: types.GET_PRAYER,
-  prayer
-} as const);

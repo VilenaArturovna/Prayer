@@ -1,21 +1,9 @@
 import React from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { colors } from "../../../assets/Colors";
-
-const { width } = Dimensions.get("window");
-const blockWidth = width / 2;
-type BlockType = {
-  count: number
-  text: string
-}
+import { blocks, blockWidth } from "../../utils/constants";
 
 export const Blocks = () => {
-  const blocks: Array<BlockType> = [
-    { count: 123, text: "Total" },
-    { count: 63, text: "by Me" },
-    { count: 60, text: "by Others" }
-  ];
-
   return (
     <View style={styles.blocks}>
       <View style={styles.dateBlock}>

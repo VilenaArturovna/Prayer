@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Dimensions, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
-import { colors } from "../../../assets/Colors";
+import { colors } from "../../../../assets/Colors";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
-import { types } from "../../redux/types";
+import { types } from "../../../redux/types";
 import Swipeout from 'react-native-swipeout';
 
 
@@ -45,7 +45,7 @@ export const PrayerItem = ({ id, title, checked, usersCount, prayersCount }: Pro
 
         <View style={styles.prayerItem}>
         <View style={styles.group}>
-          <Image source={require("../../../assets/icons/state.png")} />
+          <Image source={require("../../../../assets/icons/state.png")} />
           <CheckBox
             onCheckColor={"#514D47"}
             onTintColor={"#514D47"}
@@ -78,7 +78,7 @@ export const PrayerItem = ({ id, title, checked, usersCount, prayersCount }: Pro
           {usersCount > 0
           && <View style={styles.iconsGroup}>
             <Image
-              source={require("../../../assets/icons/user.png")}
+              source={require("../../../../assets/icons/user.png")}
               style={styles.icon}
             />
             <Text style={styles.text}>{usersCount}</Text>
@@ -87,7 +87,7 @@ export const PrayerItem = ({ id, title, checked, usersCount, prayersCount }: Pro
           {prayersCount > 0
           && <View style={styles.iconsGroup}>
             <Image
-              source={require("../../../assets/icons/prayer.png")}
+              source={require("../../../../assets/icons/prayer.png")}
               style={styles.icon}
             />
             <Text style={styles.text}>{prayersCount}</Text>

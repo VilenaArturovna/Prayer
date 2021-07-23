@@ -1,11 +1,12 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import React, { useEffect } from "react";
+import React from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { colors } from "../../../assets/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { RootStateType } from "../../redux/store";
-import { ColumnType } from "../../api/api";
+import { ColumnType } from "../../api/types";
+import { getColumnById } from "../../redux/selectors";
 
 type RootStackParamList = {
   Prayers: { id: number };
@@ -13,16 +14,18 @@ type RootStackParamList = {
 type NavigationProp = StackNavigationProp<RootStackParamList>
 
 export const DeskItem = ({ id }: { id: number }) => {
-  const columns = useSelector<RootStateType, Array<ColumnType>>(state => state.columns);
-  const column = columns.find(column => column.id === id);
+  const column = useSelector<RootStateType, ColumnType | undefined>(state => getColumnById(state, id));
   const navigation = useNavigation<NavigationProp>();
 
   return (
-    <TouchableOpacity style={styles.desk} onPress={() => navigation.navigate("Prayers", { id: column.id })}>
-      <Text style={styles.deskTitle}>
-        {column.title}
-      </Text>
-    </TouchableOpacity>
+    <>
+      {column
+      && <TouchableOpacity style={styles.desk} onPress={() => navigation.navigate("Prayers", { id: column.id })}>
+        <Text style={styles.deskTitle}>
+          {column.title}
+        </Text>
+      </TouchableOpacity>}
+    </>
   );
 };
 

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { FlatList, Image, Pressable, StyleSheet, TextInput, View } from "react-native";
 import { PrayerItem } from "./PrayerItem";
 import { colors } from "../../../assets/Colors";
-import { PrayerType } from "../../api/api";
 import { useDispatch } from "react-redux";
 import { types } from "../../redux/types";
 import { ButtonPrayer } from "../../../assets/ButtonPrayer";
+import { PrayerType } from "../../api/types";
 
 type PropsType = {
   prayers: Array<PrayerType>

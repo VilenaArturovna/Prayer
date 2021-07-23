@@ -6,7 +6,8 @@ import { useNavigation } from "@react-navigation/native";
 import { RootStateType } from "../../redux/store";
 import { colors } from "../../../assets/Colors";
 import { ButtonPrayer } from "../../../assets/ButtonPrayer";
-import { RequestStatusType } from "../../redux/reducers/auth-reducer";
+import { RequestStatusType } from "../../api/types";
+import { getAppStatus, getIsLoggedInStatus } from "../../redux/selectors";
 
 export const SignUp = () => {
   const dispatch = useDispatch();
@@ -14,8 +15,8 @@ export const SignUp = () => {
   const [name, onChangeName] = useState<string>("");
   const [password, onChangePassword] = useState<string>("");
   const navigation = useNavigation();
-  const isLoggedIn = useSelector<RootStateType, boolean>(state => state.auth.isLoggedIn);
-  const status = useSelector<RootStateType, RequestStatusType>(state => state.auth.status);
+  const isLoggedIn = useSelector<RootStateType, boolean>(getIsLoggedInStatus);
+  const status = useSelector<RootStateType, RequestStatusType>(getAppStatus);
 
   const signUp = () => {
     dispatch({ type: types.SIGN_UP_REQUESTED, payload: { email: email.toLowerCase(), password, name } });

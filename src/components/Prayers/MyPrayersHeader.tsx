@@ -4,8 +4,8 @@ import { colors } from "../../../assets/Colors";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
-import { ColumnType } from "../../api/api";
 import { MyPrayers } from "./MyPrayers";
+import { ColumnType } from "../../api/types";
 
 const Tab = createMaterialTopTabNavigator();
 type RootStackParamList = {

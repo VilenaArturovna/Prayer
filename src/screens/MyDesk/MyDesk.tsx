@@ -11,19 +11,19 @@ import {
   View
 } from "react-native";
 import { colors } from "../../../assets/Colors";
-import { DeskItem } from "./DeskItem";
+import { DeskItem } from "../../components/MyDesk";
 import { useDispatch, useSelector } from "react-redux";
 import { types } from "../../redux/types";
 import { RootStateType } from "../../redux/store";
-import { ColumnType } from "../../api/api";
 import { useNavigation } from "@react-navigation/native";
-import { RequestStatusType } from "../../redux/reducers/auth-reducer";
+import { ColumnType, RequestStatusType } from "../../api/types";
+import { getAppStatus, getColumns } from "../../redux/selectors";
 
 const width = Dimensions.get("window").width
 
 export const MyDesk = () => {
-  const columns = useSelector<RootStateType, Array<ColumnType>>(state => state.columns);
-  const appStatus = useSelector<RootStateType, RequestStatusType>(state => state.auth.status);
+  const columns = useSelector<RootStateType, Array<ColumnType>>(getColumns);
+  const appStatus = useSelector<RootStateType, RequestStatusType>(getAppStatus);
   const navigation = useNavigation();
 
   const dispatch = useDispatch();

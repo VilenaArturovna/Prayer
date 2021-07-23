@@ -3,9 +3,16 @@ import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
-import { types } from "../redux/types";
-import { colors } from "../../assets/Colors";
-import { ButtonPrayer } from "../../assets/ButtonPrayer";
+import { types } from "../../redux/types";
+import { colors } from "../../../assets/Colors";
+import { ButtonPrayer } from "../../../assets/ButtonPrayer";
+
+const getToken = async () => {
+  const res = await AsyncStorage.getItem("token")
+  return res
+}
+const token = getToken()
+
 
 export const Welcome = () => {
   const navigation = useNavigation();
@@ -18,9 +25,7 @@ export const Welcome = () => {
     AsyncStorage.getItem("isLoggedIn").then((value) => {
       console.log(value);
       value === "true" ? navigation.navigate("MyDesk") : navigation.navigate("SignIn");
-
     });
-
   });
   return (
     <View style={styles.container}>

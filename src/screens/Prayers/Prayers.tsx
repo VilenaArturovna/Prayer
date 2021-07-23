@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { ActivityIndicator, SafeAreaView, View } from "react-native";
-import { MyPrayers } from "./MyPrayers";
-import { MyPrayersHeader } from "./MyPrayersHeader";
+import { MyPrayers, MyPrayersHeader } from "../../components/Prayers";
 import { RouteProp } from "@react-navigation/native";
 import { colors } from "../../../assets/Colors";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStateType } from "../../redux/store";
-import { ColumnType, PrayerType } from "../../api/api";
 import { types } from "../../redux/types";
-import { RequestStatusType } from "../../redux/reducers/auth-reducer";
+import { ColumnType, PrayerType, RequestStatusType } from "../../api/types";
+import { getAppStatus, getColumn, getPrayersForColumn } from "../../redux/selectors";
 
 type RootStackParamList = {
   Prayers: { id: number };
@@ -18,11 +17,11 @@ type PropsType = {
   route: PrayersRouteProp;
 };
 
-export const MyPrayersPage = ({ route }: PropsType) => {
+export const Prayers = ({ route }: PropsType) => {
   const id = route.params.id;
-  const status = useSelector<RootStateType, RequestStatusType>(state => state.auth.status);
-  const column = useSelector<RootStateType, ColumnType>(state => state.column);
-  const prayers = useSelector<RootStateType, Array<PrayerType>>(state => state.prayers.filter(prayer => prayer.columnId === id))
+  const status = useSelector<RootStateType, RequestStatusType>(getAppStatus);
+  const column = useSelector<RootStateType, ColumnType>(getColumn);
+  const prayers = useSelector<RootStateType, Array<PrayerType>>(state => getPrayersForColumn(state, id));
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -39,7 +38,7 @@ export const MyPrayersPage = ({ route }: PropsType) => {
             column={column}
           />
           <View style={{ backgroundColor: colors.white, minHeight: "100%" }}>
-            <MyPrayers prayers={prayers} columnId={id}/>
+            <MyPrayers prayers={prayers} columnId={id} />
           </View>
         </>
       }

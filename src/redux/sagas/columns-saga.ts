@@ -1,28 +1,15 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { types } from "../types";
-import { columnsAPI } from "../../api/api";
-import { createColumn, deleteColumn, setColumns, updateColumn } from "../reducers/columns-reducer";
-import { setAppStatusAC } from "../reducers/auth-reducer";
-import { getColumnById } from "../reducers/column-reducer";
-
-type CreateColumnActionType = {
-  payload: {
-    title: string
-    description: string
-  }
-}
-type ColumnIdActionType = {
-  payload: {
-    columnId: number
-  }
-}
-type UpdateColumnActionType = {
-  payload: {
-    columnId: number
-    title: string
-    description: string
-  }
-}
+import { columnsAPI } from "../../api/columnsAPI";
+import {
+  createColumn,
+  deleteColumn,
+  getColumnById,
+  setAppStatusAC,
+  setColumns,
+  updateColumn
+} from "../reducers/actionCreators";
+import { ColumnIdActionType, CreateColumnActionType, UpdateColumnActionType } from "./types";
 
 function* setColumnsWorker(): any {
   try {
@@ -81,9 +68,9 @@ function* updateColumnWorker({ payload }: UpdateColumnActionType): any {
 }
 
 export function* columnsSaga() {
-  yield takeEvery(types.CREATE_COLUMN_REQUESTED, createColumnWorker);
-  yield takeEvery(types.FETCH_COLUMNS, setColumnsWorker);
-  yield takeEvery(types.DELETE_COLUMN_REQUESTED, deleteColumnWorker);
-  yield takeEvery(types.UPDATE_COLUMN_REQUESTED, updateColumnWorker);
-  yield takeEvery(types.FETCH_COLUMN, setColumnWorker);
+  yield takeLatest(types.CREATE_COLUMN_REQUESTED, createColumnWorker);
+  yield takeLatest(types.FETCH_COLUMNS, setColumnsWorker);
+  yield takeLatest(types.DELETE_COLUMN_REQUESTED, deleteColumnWorker);
+  yield takeLatest(types.UPDATE_COLUMN_REQUESTED, updateColumnWorker);
+  yield takeLatest(types.FETCH_COLUMN, setColumnWorker);
 }

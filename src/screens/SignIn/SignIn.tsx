@@ -6,15 +6,16 @@ import { types } from "../../redux/types";
 import { RootStateType } from "../../redux/store";
 import { ButtonPrayer } from "../../../assets/ButtonPrayer";
 import { colors } from "../../../assets/Colors";
-import { RequestStatusType } from "../../redux/reducers/auth-reducer";
+import { RequestStatusType } from "../../api/types";
+import { getAppStatus, getIsLoggedInStatus } from "../../redux/selectors";
 
 export const SignIn = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [email, onChangeEmail] = useState<string>("");
   const [password, onChangePassword] = useState<string>("");
-  const isLoggedIn = useSelector<RootStateType, boolean>(state => state.auth.isLoggedIn);
-  const status = useSelector<RootStateType, RequestStatusType>(state => state.auth.status);
+  const isLoggedIn = useSelector<RootStateType, boolean>(getIsLoggedInStatus);
+  const status = useSelector<RootStateType, RequestStatusType>(getAppStatus);
   isLoggedIn && navigation.navigate("MyDesk");
   const signIn = () => {
     dispatch({ type: types.SIGN_IN_REQUESTED, payload: { email: email.toLowerCase(), password } });

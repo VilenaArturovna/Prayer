@@ -3,9 +3,9 @@ import { StyleSheet, TextInput, View } from "react-native";
 import { colors } from "../../../assets/Colors";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
-import { ColumnType } from "../../api/api";
 import { types } from "../../redux/types";
 import { ButtonPrayer } from "../../../assets/ButtonPrayer";
+import { ColumnType } from "../../api/types";
 
 type RootStackParamList = {
   UpdateColumn: { column: ColumnType }

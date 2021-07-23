@@ -1,14 +1,10 @@
-import { ColumnType } from "../../api/api";
 import { types } from "../types";
+import { ColumnType } from "../../api/types";
+import { columnsActionsType } from "./actionCreators";
 
 const initialState: Array<ColumnType> = [];
-type ActionsType =
-  ReturnType<typeof setColumns> |
-  ReturnType<typeof createColumn> |
-  ReturnType<typeof deleteColumn> |
-  ReturnType<typeof updateColumn>
 
-export const columnsReducer = (state = initialState, action: ActionsType) => {
+export const columnsReducer = (state = initialState, action: columnsActionsType) => {
   switch (action.type) {
     case types.SET_COLUMNS:
       return action.columns.map(column => ({ ...column }));
@@ -33,21 +29,3 @@ export const columnsReducer = (state = initialState, action: ActionsType) => {
   }
 };
 
-export const setColumns = (columns: Array<ColumnType>) => ({
-  type: types.SET_COLUMNS,
-  columns
-} as const);
-export const createColumn = (column: ColumnType & { user: number }) => ({
-  type: types.CREATE_COLUMN,
-  column
-} as const);
-export const updateColumn = (columnId: number, title: string, description: string) => ({
-  type: types.UPDATE_COLUMN,
-  columnId,
-  title,
-  description
-} as const);
-export const deleteColumn = (columnId: number) => ({
-  type: types.DELETE_COLUMN,
-  columnId
-} as const);
